@@ -2,9 +2,9 @@
 
 > **Web, App, ML & Data Science Studio.** Portfolio + studio toolkit by Afiq Andico (Pahchin).
 
-A clean, IT-services-focused site. Pure dev/IT work — no creative content (that lives at [anotherwaltz.id](https://github.com/anotherwaltz/anotherwaltz-site)).
+A clean, IT-services-focused site. Pure dev/IT work — no creative content (that lives at **[anotherwaltz.id](https://github.com/afiqandico13/anotherwaltz-site)**).
 
-🌐 **Live**: [pahchinsan.dev](https://github.com/afiqandico13/pahchinsan-developer) (set setelah deploy)
+🌐 **Live**: [pahchinsan.dev](https://github.com/afiqandico13/pahchinsan-developer) (setelah deploy)
 
 ---
 
