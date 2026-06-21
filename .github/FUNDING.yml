@@ -1,0 +1,20 @@
+# Funding configuration for PahchinSan Developer
+# Shows sponsor button on GitHub repo sidebar.
+#
+# NOTE: You must enroll in GitHub Sponsors first:
+# 1. Go to https://github.com/sponsors/afiqandico13
+# 2. Click "Become a sponsored developer"
+# 3. Configure tiers and payout method
+#
+# Until enrolled, this file is documentation only.
+
+github: [afiqandico13]
+# patreon: # username
+# open_collective: # username
+# ko_fi: # username
+# tidelift: # package-name
+# community_bridge: # project-name
+# liberapay: # username
+# issuehunt: # username
+# otechie: # username
+# custom: ['https://example.com/page']
