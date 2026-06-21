@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <radialGradient id="sky" cx="50%" cy="60%" r="60%">
+      <stop offset="0%" stop-color="#1A1F2B"/>
+      <stop offset="55%" stop-color="#0B0E14"/>
+      <stop offset="100%" stop-color="#000"/>
+    </radialGradient>
+    <radialGradient id="anger-sun" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#F97056"/>
+      <stop offset="40%" stop-color="#F78C6C"/>
+      <stop offset="70%" stop-color="#7C2D1B" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#F97056" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="noise">
+      <feTurbulence baseFrequency="0.65" numOctaves="2" seed="3"/>
+      <feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.04 0"/>
+      <feComposite in2="SourceGraphic" operator="in"/>
+    </filter>
+  </defs>
+
+  <!-- Base -->
+  <rect width="800" height="600" fill="url(#sky)"/>
+
+  <!-- Sun (anger) — irregular, half-submerged, fragmenting -->
+  <g transform="translate(400 360)">
+    <circle r="220" fill="url(#anger-sun)"/>
+    <!-- Black slices cutting through sun (the anger) -->
+    <polygon points="-220,-60 -100,-180 80,-200 -60,-40" fill="#0B0E14" opacity="0.95"/>
+    <polygon points="60,40 200,-30 220,90 30,80" fill="#0B0E14" opacity="0.92"/>
+    <polygon points="-180,80 -40,140 90,180 -130,180" fill="#0B0E14" opacity="0.88"/>
+  </g>
+
+  <!-- Brush strokes scattered -->
+  <g opacity="0.5" stroke="#F97056" stroke-width="2" fill="none">
+    <path d="M 80 100 Q 140 80 200 120"/>
+    <path d="M 600 80 Q 660 60 720 100"/>
+    <path d="M 50 480 Q 110 460 170 500"/>
+  </g>
+
+  <!-- Noise overlay -->
+  <rect width="800" height="600" filter="url(#noise)"/>
+
+  <!-- Title -->
+  <text x="40" y="560" font-family="JetBrains Mono, monospace" font-size="14" font-weight="600" fill="#F97056" letter-spacing="2">ANGER OF THE SUN</text>
+  <text x="40" y="582" font-family="JetBrains Mono, monospace" font-size="10" fill="#9CA3AF">70x60 cm · cat genteng · 2019</text>
+</svg>
