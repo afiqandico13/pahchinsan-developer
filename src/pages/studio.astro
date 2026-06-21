@@ -1,0 +1,182 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../consts';
+
+const services = [
+  { tier: 'S', name: 'Quick Landing', desc: '1 halaman fokus, 3-7 section, responsive mobile, contact form, SEO dasar.', price: 'Rp 500rb – 1,5jt', turnaround: '1 minggu' },
+  { tier: 'M', name: 'Solid Portfolio', desc: 'Multi-halaman (Home, About, Work, Blog, Contact), CMS edit sendiri, animasi, 2x revisi.', price: 'Rp 2jt – 5jt', turnaround: '2-3 minggu' },
+  { tier: 'L', name: 'Premium Custom', desc: 'Custom design dari nol, multi-bahasa, integrasi booking/payment, performance & SEO advanced, 3x revisi + handover training.', price: 'Rp 8jt – 20jt', turnaround: '3-6 minggu' },
+];
+
+const addons = [
+  { name: 'Blog / Artikel', price: '+Rp 750rb', desc: 'Halaman blog + editor markdown' },
+  { name: 'CMS Custom', price: '+Rp 1,25jt', desc: 'Edit konten sendiri tanpa coding (Decap CMS)' },
+  { name: 'Custom Design', price: '+Rp 1,5jt', desc: 'Desain original dari nol (bukan template)' },
+  { name: 'Multilingual (+1)', price: '+Rp 750rb', desc: 'Tambah EN/JP/dll per bahasa' },
+  { name: 'Maintenance Retainer', price: 'Rp 400rb/bln', desc: 'Update konten, backup, monitoring' },
+  { name: 'SEO Advanced', price: '+Rp 600rb', desc: 'Riset keyword + on-page optimization' },
+];
+
+const templates = [
+  {
+    name: 'brief.md',
+    title: 'Client Brief Questionnaire',
+    desc: 'Questionnaire untuk klien baru — discovery questions, content submission checklist, budget & deadline.',
+    href: '/studio/brief.md',
+    icon: '📋',
+  },
+  {
+    name: 'service-agreement.md',
+    title: 'Service Agreement Template',
+    desc: 'Kontrak kerja — 11 Pasal: scope, timeline, payment terms, revisi policy, IP rights, maintenance.',
+    href: '/studio/service-agreement.md',
+    icon: '📜',
+  },
+  {
+    name: 'proposal.md',
+    title: 'Proposal Template',
+    desc: 'Dokumen penawaran — cover letter, scope, timeline, pricing breakdown, terms reference.',
+    href: '/studio/proposal.md',
+    icon: '📨',
+  },
+];
+---
+<BaseLayout
+  title="Studio"
+  description="PahchinSan Studio — jasa web portfolio dengan 3 tier (S/M/L) + add-ons. Paket lengkap dengan pricing calculator transparan dan template profesional."
+>
+  <!-- HERO -->
+  <section class="border-b border-ink-700 bg-gradient-to-br from-ink-900 via-ink-800 to-ink-900">
+    <div class="container-wide py-16 md:py-24">
+      <p class="section-label">~/studio</p>
+      <h1 class="font-display text-4xl text-ink-50 sm:text-5xl md:text-6xl">
+        Hire me for your <span class="text-accent-400">portfolio</span>.
+      </h1>
+      <p class="mt-4 max-w-2xl text-lg text-ink-200">
+        Terbuka untuk freelance — website portfolio untuk freelancer, kreator, dan UMKM. Pricing transparan via kalkulator, gak ada hidden cost. Atau download template untuk handle sendiri.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="/pricing-calculator.html" target="_blank" rel="noopener" class="btn btn-primary">
+          Buka Pricing Calculator →
+        </a>
+        <a href="/contact/" class="btn btn-outline btn-secondary">Diskusi Project</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES / TIERS -->
+  <section class="container-wide py-16 md:py-24">
+    <div class="mb-10 flex items-end justify-between gap-4">
+      <div>
+        <p class="section-label">~/services</p>
+        <h2 class="font-display text-3xl text-ink-50 sm:text-4xl">3 tier, sesuai skala.</h2>
+      </div>
+    </div>
+
+    <div class="grid gap-6 lg:grid-cols-3">
+      {services.map((s, idx) => (
+        <div class:list={[
+          'card-hover flex flex-col rounded-box border p-6',
+          idx === 1 ? 'border-accent-400 bg-ink-800/60 shadow-lg shadow-accent-400/10' : 'border-ink-600 bg-ink-800/30',
+        ]}>
+          <div class="mb-4 flex items-baseline justify-between">
+            <p class="font-display text-3xl text-accent-400">Tier {s.tier}</p>
+            {idx === 1 && <span class="rounded-full border border-accent-400 bg-accent-400/10 px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest text-accent-400">paling populer</span>}
+          </div>
+          <p class="font-display text-xl text-ink-50">{s.name}</p>
+          <p class="mt-2 text-sm text-ink-200">{s.desc}</p>
+          <div class="mt-auto pt-6">
+            <p class="font-mono text-2xl text-ink-50">{s.price}</p>
+            <p class="mt-1 font-mono text-xs text-ink-300">⏱ {s.turnaround}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ADD-ONS -->
+  <section class="border-y border-ink-700 bg-ink-800/30 py-16 md:py-24">
+    <div class="container-wide">
+      <p class="section-label">~/addons</p>
+      <h2 class="mb-10 font-display text-3xl text-ink-50 sm:text-4xl">Tambahan opsional.</h2>
+
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {addons.map(a => (
+          <div class="rounded-box border border-ink-600 bg-ink-900/50 p-5">
+            <div class="flex items-baseline justify-between gap-2">
+              <p class="font-display text-lg text-ink-50">{a.name}</p>
+              <p class="font-mono text-sm text-accent-400">{a.price}</p>
+            </div>
+            <p class="mt-2 text-sm text-ink-300">{a.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- TEMPLATES -->
+  <section class="container-wide py-16 md:py-24">
+    <p class="section-label">~/templates</p>
+    <h2 class="mb-3 font-display text-3xl text-ink-50 sm:text-4xl">Handle sendiri? Download template.</h2>
+    <p class="mb-10 max-w-2xl text-ink-200">
+      Tiga template gratis untuk kamu yang mau handle project portfolio sendiri — atau untuk freelancer lain yang pengen pake workflow yang sama. Markdown, gampang di-customize.
+    </p>
+
+    <div class="grid gap-6 md:grid-cols-3">
+      {templates.map(t => (
+        <a href={t.href} download class="card-hover block rounded-box border border-ink-600 bg-ink-800/30 p-6 transition-colors hover:border-accent-400/60">
+          <p class="text-3xl">{t.icon}</p>
+          <p class="mt-3 font-mono text-sm text-accent-400">{t.name}</p>
+          <p class="mt-2 font-display text-lg text-ink-50">{t.title}</p>
+          <p class="mt-2 text-sm text-ink-300">{t.desc}</p>
+          <p class="mt-4 font-mono text-xs text-ink-400">↓ download markdown</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="border-t border-ink-700 bg-ink-800/30 py-16 md:py-24">
+    <div class="container-wide">
+      <p class="section-label">~/process</p>
+      <h2 class="mb-10 font-display text-3xl text-ink-50 sm:text-4xl">Cara kerja.</h2>
+
+      <ol class="relative space-y-8 border-l border-ink-700 pl-8">
+        {[
+          { n: '01', t: 'Discovery', d: 'Kickoff call 60 menit — bahas goal, referensi, budget, timeline. Aku kirim brief.md untuk kamu isi.' },
+          { n: '02', t: 'Deal + DP 50%', d: 'Setelah deal, aku kirim service agreement untuk tanda tangan. DP 50% di muka.' },
+          { n: '03', t: 'Build (1-2 minggu)', d: 'Aku setup project, wireframe, design, development. Preview URL dishare tiap Jumat.' },
+          { n: '04', t: 'Revisi (1 minggu)', d: '2 ronde revisi major (Tier M) — kamu kasih feedback, aku adjust.' },
+          { n: '05', t: 'Launch + handover', d: 'Deploy ke Vercel + custom domain. Pelunasan 50% + training 60 menit via Zoom.' },
+        ].map(step => (
+          <li class="relative">
+            <span class="absolute -left-[42px] flex h-8 w-8 items-center justify-center rounded-full border border-accent-400 bg-ink-900 font-mono text-xs text-accent-400">
+              {step.n}
+            </span>
+            <h3 class="font-display text-lg text-ink-50">{step.t}</h3>
+            <p class="mt-1 text-sm text-ink-200">{step.d}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="container-wide py-16">
+    <div class="rounded-box border border-accent-400/40 bg-gradient-to-br from-accent-400/10 to-ink-900 p-8 md:p-14">
+      <div class="grid items-center gap-8 md:grid-cols-2">
+        <div>
+          <p class="section-label">~/ready</p>
+          <h2 class="font-display text-3xl text-ink-50 sm:text-4xl">Siap mulai?</h2>
+          <p class="mt-3 max-w-md text-ink-200">
+            Kirim brief via WhatsApp atau email. Aku balas dalam 24 jam dengan proposal detail + link kalkulator harga.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-3 md:justify-end">
+          <a href="/contact/" class="btn btn-primary">Hubungi</a>
+          <a href="/pricing-calculator.html" target="_blank" rel="noopener" class="btn btn-outline">Kalkulator Harga</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

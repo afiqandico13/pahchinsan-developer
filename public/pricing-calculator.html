@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Kalkulator Harga — Ruby Web Studio</title>
+<meta name="description" content="Kalkulator harga interaktif untuk jasa web portfolio Ruby Web Studio. Hitung estimasi biaya website portfolio Anda secara instan." />
+
+<!-- Tailwind via CDN (cacheable, offline-friendly setelah load pertama) -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  // Konfigurasi Tailwind sebelum render
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        colors: {
+          ruby: {
+            50:  '#fff1f3',
+            100: '#ffe0e6',
+            200: '#ffc6d0',
+            300: '#ff9eaf',
+            400: '#ff6e87',
+            500: '#f43f5e',
+            600: '#dc2647',
+            700: '#b91c3a',
+            800: '#971a35',
+            900: '#7f1a32',
+          },
+          ink: {
+            50:  '#f8fafc',
+            100: '#f1f5f9',
+            200: '#e2e8f0',
+            300: '#cbd5e1',
+            400: '#94a3b8',
+            500: '#64748b',
+            600: '#475569',
+            700: '#334155',
+            800: '#1e293b',
+            900: '#0f172a',
+          }
+        },
+        fontFamily: {
+          sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+          display: ['"Space Grotesk"', 'Inter', 'system-ui', 'sans-serif'],
+        },
+        animation: {
+          'fade-in': 'fadeIn 0.3s ease-out',
+          'pulse-soft': 'pulseSoft 0.4s ease-out',
+        },
+        keyframes: {
+          fadeIn: { '0%': { opacity: '0', transform: 'translateY(4px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+          pulseSoft: { '0%, 100%': { transform: 'scale(1)' }, '50%': { transform: 'scale(1.03)' } },
+        }
+      }
+    }
+  };
+</script>
+
+<!-- Inline critical CSS sebagai fallback kalau Tailwind CDN gagal load offline -->
+<style>
+  /* Base */
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; -webkit-font-smoothing: antialiased; }
+  html.dark body { background: #0f172a; color: #f1f5f9; }
+  body { background: #f8fafc; color: #0f172a; transition: background-color .2s ease, color .2s ease; }
+
+  /* Critical utilities fallback (Tailwind akan override kalau load) */
+  .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+  .hidden { display: none !important; }
+  .flex { display: flex; }
+  .grid { display: grid; }
+  .block { display: block; }
+  .items-center { align-items: center; }
+  .justify-between { justify-content: space-between; }
+  .justify-center { justify-content: center; }
+  .gap-2 { gap: 0.5rem; } .gap-3 { gap: 0.75rem; } .gap-4 { gap: 1rem; } .gap-6 { gap: 1.5rem; }
+  .text-center { text-align: center; }
+  .text-right { text-align: right; }
+  .font-bold { font-weight: 700; } .font-semibold { font-weight: 600; } .font-medium { font-weight: 500; }
+  .rounded { border-radius: 0.375rem; } .rounded-lg { border-radius: 0.5rem; } .rounded-xl { border-radius: 0.75rem; } .rounded-2xl { border-radius: 1rem; } .rounded-full { border-radius: 9999px; }
+  .shadow { box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1); }
+  .shadow-lg { box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); }
+  .transition { transition: all .2s ease; }
+
+  /* Range slider styling */
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    background: #e2e8f0;
+    border-radius: 9999px;
+    outline: none;
+  }
+  html.dark input[type="range"] { background: #334155; }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #dc2647;
+    cursor: pointer;
+    border: 3px solid white;
+    box-shadow: 0 2px 6px rgba(220, 38, 71, 0.4);
+    transition: transform .15s ease;
+  }
+  input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.15); }
+  input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #dc2647;
+    cursor: pointer;
+    border: 3px solid white;
+    box-shadow: 0 2px 6px rgba(220, 38, 71, 0.4);
+  }
+
+  /* Toggle switch */
+  .toggle {
+    position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0;
+  }
+  .toggle input { opacity: 0; width: 0; height: 0; }
+  .toggle-slider {
+    position: absolute; inset: 0; background: #cbd5e1; border-radius: 9999px;
+    transition: background .2s; cursor: pointer;
+  }
+  .toggle-slider::before {
+    content: ''; position: absolute; height: 18px; width: 18px; left: 3px; top: 3px;
+    background: white; border-radius: 50%; transition: transform .2s;
+  }
+  html.dark .toggle-slider { background: #475569; }
+  .toggle input:checked + .toggle-slider { background: #dc2647; }
+  .toggle input:checked + .toggle-slider::before { transform: translateX(20px); }
+
+  /* Custom checkbox */
+  .check-card {
+    position: relative; cursor: pointer; user-select: none;
+    border: 2px solid #e2e8f0; border-radius: 0.75rem; padding: 1rem;
+    transition: all .15s ease; background: white;
+  }
+  html.dark .check-card { background: #1e293b; border-color: #334155; }
+  .check-card:hover { border-color: #ff9eaf; }
+  .check-card input { position: absolute; opacity: 0; pointer-events: none; }
+  .check-card.is-checked { border-color: #dc2647; background: #fff1f3; }
+  html.dark .check-card.is-checked { background: #7f1a32; border-color: #f43f5e; }
+
+  /* Tier card */
+  .tier-card {
+    position: relative; cursor: pointer; user-select: none;
+    border: 2px solid #e2e8f0; border-radius: 1rem; padding: 1.25rem;
+    transition: all .2s ease; background: white;
+  }
+  html.dark .tier-card { background: #1e293b; border-color: #334155; }
+  .tier-card:hover { transform: translateY(-2px); }
+  .tier-card.is-active {
+    border-color: #dc2647; box-shadow: 0 10px 30px -10px rgba(220, 38, 71, 0.35);
+    background: linear-gradient(135deg, #fff1f3 0%, white 100%);
+  }
+  html.dark .tier-card.is-active {
+    background: linear-gradient(135deg, #7f1a32 0%, #1e293b 100%);
+    border-color: #f43f5e;
+  }
+  .tier-card.is-active::after {
+    content: '✓'; position: absolute; top: -10px; right: -10px;
+    width: 28px; height: 28px; background: #dc2647; color: white;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-weight: 700; box-shadow: 0 4px 12px rgba(220, 38, 71, 0.4);
+  }
+
+  /* Print styles */
+  @media print {
+    .no-print { display: none !important; }
+    body { background: white !important; color: black !important; }
+    html.dark body { background: white !important; color: black !important; }
+    .print-break { page-break-inside: avoid; }
+    .tier-card, .check-card { border-color: #475569 !important; background: white !important; box-shadow: none !important; }
+    .tier-card.is-active, .check-card.is-checked { background: #fef2f2 !important; }
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: #0f172a; color: white; padding: 0.75rem 1.25rem; border-radius: 9999px;
+    opacity: 0; pointer-events: none; transition: all .3s ease; z-index: 50;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+  .toast.is-visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* Animated price */
+  .price-display { transition: color .2s ease; }
+  .price-display.is-pulsing { animation: pulseSoft 0.4s ease-out; }
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23dc2647'/%3E%3Ctext x='50' y='68' font-family='sans-serif' font-size='60' font-weight='700' fill='white' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E">
+</head>
+
+<body class="min-h-screen">
+
+<!-- ============= HEADER ============= -->
+<header class="no-print sticky top-0 z-30 backdrop-blur-md bg-white/80 dark:bg-ink-900/80 border-b border-ink-200 dark:border-ink-800">
+  <div class="container py-3 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-ruby-500 to-ruby-700 flex items-center justify-center text-white font-display font-bold text-xl shadow-lg">R</div>
+      <div>
+        <div class="font-display font-bold text-lg leading-tight">Ruby Web Studio</div>
+        <div class="text-xs text-ink-500 dark:text-ink-400">by Afiq Andico · Jimbaran, Bali</div>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <button id="themeToggle" class="p-2 rounded-lg hover:bg-ink-100 dark:hover:bg-ink-800 transition" aria-label="Toggle tema">
+        <svg id="iconLight" class="w-5 h-5 hidden dark:block" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/></svg>
+        <svg id="iconDark" class="w-5 h-5 dark:hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ============= HERO ============= -->
+<section class="no-print container pt-10 pb-6">
+  <div class="max-w-3xl">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-ruby-100 dark:bg-ruby-900/30 text-ruby-700 dark:text-ruby-300 text-xs font-medium mb-4">
+      <span class="w-1.5 h-1.5 rounded-full bg-ruby-500 animate-pulse"></span>
+      Estimasi instan · tanpa komitmen
+    </div>
+    <h1 class="font-display text-4xl md:text-5xl font-bold leading-tight mb-3">
+      Berapa biaya website <span class="text-ruby-600 dark:text-ruby-400">portfolio</span> idaman Anda?
+    </h1>
+    <p class="text-lg text-ink-600 dark:text-ink-300 leading-relaxed">
+      Geser-geser, pilih tier, centang add-on. Angka yang muncul di kanan itu estimasi jujur — bukan teaser marketing.
+      Cocok buat freelancer, kreator, dan UMKM yang lagi ngitung budget.
+    </p>
+  </div>
+</section>
+
+<!-- ============= MAIN GRID ============= -->
+<main class="container pb-16">
+  <div class="grid lg:grid-cols-3 gap-6">
+
+    <!-- ============= KOLOM KIRI: KONFIGURATOR ============= -->
+    <div class="lg:col-span-2 space-y-6">
+
+      <!-- TIER SELECTION -->
+      <section class="bg-white dark:bg-ink-800 rounded-2xl shadow p-6">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h2 class="font-display font-bold text-xl">1. Pilih Tier</h2>
+            <p class="text-sm text-ink-500 dark:text-ink-400 mt-0.5">Mulai dari yang paling sesuai dengan skala & budget Anda.</p>
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-3 gap-3" id="tierCards">
+          <!-- Tier S -->
+          <label class="tier-card is-active" data-tier="S">
+            <input type="radio" name="tier" value="S" checked>
+            <div class="text-xs font-bold text-ruby-600 dark:text-ruby-400 mb-1">TIER S</div>
+            <div class="font-display font-bold text-base mb-1">Quick Landing</div>
+            <div class="text-xs text-ink-500 dark:text-ink-400 mb-3">1 halaman fokus · 3-7 halaman</div>
+            <div class="text-sm font-semibold">Rp 500rb – 1,5jt</div>
+            <ul class="mt-3 text-xs space-y-1 text-ink-600 dark:text-ink-300">
+              <li>✓ Landing page / single page</li>
+              <li>✓ Responsive mobile</li>
+              <li>✓ Contact form / WhatsApp CTA</li>
+              <li>✓ SEO dasar</li>
+              <li>✓ 1x revisi minor</li>
+            </ul>
+          </label>
+
+          <!-- Tier M -->
+          <label class="tier-card" data-tier="M">
+            <input type="radio" name="tier" value="M">
+            <div class="text-xs font-bold text-ruby-600 dark:text-ruby-400 mb-1">TIER M</div>
+            <div class="font-display font-bold text-base mb-1">Solid Portfolio</div>
+            <div class="text-xs text-ink-500 dark:text-ink-400 mb-3">Multi-halaman · 5-11 halaman</div>
+            <div class="text-sm font-semibold">Rp 2jt – 5jt</div>
+            <ul class="mt-3 text-xs space-y-1 text-ink-600 dark:text-ink-300">
+              <li>✓ Semua fitur Tier S</li>
+              <li>✓ Multi-halaman (Home, About, Works, Blog)</li>
+              <li>✓ Animasi & micro-interaction</li>
+              <li>✓ CMS ringan (edit sendiri)</li>
+              <li>✓ 2x revisi major</li>
+            </ul>
+          </label>
+
+          <!-- Tier L -->
+          <label class="tier-card" data-tier="L">
+            <input type="radio" name="tier" value="L">
+            <div class="text-xs font-bold text-ruby-600 dark:text-ruby-400 mb-1">TIER L</div>
+            <div class="font-display font-bold text-base mb-1">Premium</div>
+            <div class="text-xs text-ink-500 dark:text-ink-400 mb-3">Custom · 8-15+ halaman</div>
+            <div class="text-sm font-semibold">Rp 8jt – 20jt</div>
+            <ul class="mt-3 text-xs space-y-1 text-ink-600 dark:text-ink-300">
+              <li>✓ Semua fitur Tier M</li>
+              <li>✓ Custom design dari nol</li>
+              <li>✓ Multilingual + integrasi booking/payment</li>
+              <li>✓ Performance & SEO advanced</li>
+              <li>✓ 3x revisi + handover training</li>
+            </ul>
+          </label>
+        </div>
+      </section>
+
+      <!-- PAGE COUNT SLIDER -->
+      <section class="bg-white dark:bg-ink-800 rounded-2xl shadow p-6">
+        <h2 class="font-display font-bold text-xl mb-1">2. Estimasi Jumlah Halaman</h2>
+        <p class="text-sm text-ink-500 dark:text-ink-400 mb-5">Home, About, Services, Portfolio, Blog post, dst. Slider otomatis mengikuti tier.</p>
+
+        <div class="flex items-center justify-between mb-2">
+          <label for="pagesSlider" class="font-semibold text-sm">Halaman</label>
+          <div class="flex items-baseline gap-1">
+            <span id="pagesValue" class="font-display font-bold text-2xl text-ruby-600 dark:text-ruby-400">5</span>
+            <span class="text-sm text-ink-500 dark:text-ink-400">halaman</span>
+          </div>
+        </div>
+        <input type="range" id="pagesSlider" min="3" max="15" value="5" step="1" class="w-full">
+
+        <div class="flex justify-between text-xs text-ink-500 dark:text-ink-400 mt-2">
+          <span id="pagesMin">3</span>
+          <span id="pagesMid">9</span>
+          <span id="pagesMax">15</span>
+        </div>
+      </section>
+
+      <!-- REVISION SLIDER -->
+      <section class="bg-white dark:bg-ink-800 rounded-2xl shadow p-6">
+        <h2 class="font-display font-bold text-xl mb-1">3. Jumlah Revisi</h2>
+        <p class="text-sm text-ink-500 dark:text-ink-400 mb-5">
+          Setiap tier sudah include revisi gratis. Tambahan revisi dihitung terpisah.
+        </p>
+
+        <div class="flex items-center justify-between mb-2">
+          <label for="revisionsSlider" class="font-semibold text-sm">Total ronde revisi</label>
+          <div class="flex items-baseline gap-1">
+            <span id="revisionsValue" class="font-display font-bold text-2xl text-ruby-600 dark:text-ruby-400">2</span>
+            <span class="text-sm text-ink-500 dark:text-ink-400">× revisi</span>
+          </div>
+        </div>
+        <input type="range" id="revisionsSlider" min="1" max="5" value="2" step="1" class="w-full">
+
+        <div class="flex justify-between text-xs text-ink-500 dark:text-ink-400 mt-2">
+          <span>1</span>
+          <span>3</span>
+          <span>5</span>
+        </div>
+        <p id="revisionsNote" class="text-xs text-ink-500 dark:text-ink-400 mt-3 bg-ink-50 dark:bg-ink-900 rounded-lg p-3">
+          Tier S include <strong>1</strong> revisi gratis. Revisi ke-2–3 dihitung Rp 100rb/ronde.
+        </p>
+      </section>
+
+      <!-- ADD-ONS -->
+      <section class="bg-white dark:bg-ink-800 rounded-2xl shadow p-6">
+        <h2 class="font-display font-bold text-xl mb-1">4. Add-on (opsional)</h2>
+        <p class="text-sm text-ink-500 dark:text-ink-400 mb-5">Centang yang Anda butuhkan. Harga akan ter-update otomatis.</p>
+
+        <div class="grid sm:grid-cols-2 gap-3" id="addons">
+          <label class="check-card" data-addon="blog">
+            <input type="checkbox">
+            <div class="flex items-start gap-3">
+              <div class="w-9 h-9 rounded-lg bg-ruby-100 dark:bg-ruby-900/30 flex items-center justify-center text-ruby-600 dark:text-ruby-400 flex-shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="font-semibold text-sm">Blog / Artikel</div>
+                <div class="text-xs text-ink-500 dark:text-ink-400 mt-0.5">Halaman blog + editor markdown</div>
+                <div class="text-sm font-bold text-ruby-600 dark:text-ruby-400 mt-2">+Rp 750rb</div>
+              </div>
+            </div>
+          </label>
+
+          <label class="check-card" data-addon="cms">
+            <input type="checkbox">
+            <div class="flex items-start gap-3">
+              <div class="w-9 h-9 rounded-lg bg-ruby-100 dark:bg-ruby-900/30 flex items-center justify-center text-ruby-600 dark:text-ruby-400 flex-shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2 1 3 3 3h10c2 0 3-1 3-3V7c0-2-1-3-3-3H7C5 4 4 5 4 7zm0 5h16"/></svg>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="font-semibold text-sm">CMS Custom</div>
+                <div class="text-xs text-ink-500 dark:text-ink-400 mt-0.5">Edit konten sendiri tanpa coding</div>
+                <div class="text-sm font-bold text-ruby-600 dark:text-ruby-400 mt-2">+Rp 1,25jt</div>
+              </div>
+            </div>
+          </label>
+
+          <label class="check-card" data-addon="customDesign">
+            <input type="checkbox">
+            <div class="flex items-start gap-3">
+              <div class="w-9 h-9 rounded-lg bg-ruby-100 dark:bg-ruby-900/30 flex items-center justify-center text-ruby-600 dark:text-ruby-400 flex-shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="font-semibold text-sm">Custom Design</div>
+                <div class="text-xs text-ink-500 dark:text-ink-400 mt-0.5">Desain original dari nol (bukan template)</div>
+                <div class="text-sm font-bold text-ruby-600 dark:text-ruby-400 mt-2">+Rp 1,5jt</div>
+              </div>
+            </div>
+          </label>
+
+          <label class="check-card" data-addon="multilang">
+            <input type="checkbox">
+            <div class="flex items-start gap-3">
+              <div class="w-9 h-9 rounded-lg bg-ruby-100 dark:bg-ruby-900/30 flex items-center justify-center text-ruby-600 dark:text-ruby-400 flex-shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/></svg>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="font-semibold text-sm">Multilingual (+1 bahasa)</div>
+                <div class="text-xs text-ink-500 dark:text-ink-400 mt-0.5">Tambah EN/JP/dll. per bahasa</div>
+                <div class="text-sm font-bold text-ruby-600 dark:text-ruby-400 mt-2">+Rp 750rb</div>
+              </div>
+            </div>
+          </label>
+
+          <label class="check-card" data-addon="maintenance">
+            <input type="checkbox">
+            <div class="flex items-start gap-3">
+              <div class="w-9 h-9 rounded-lg bg-ruby-100 dark:bg-ruby-900/30 flex items-center justify-center text-ruby-600 dark:text-ruby-400 flex-shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="font-semibold text-sm">Maintenance Retainer</div>
+                <div class="text-xs text-ink-500 dark:text-ink-400 mt-0.5">Update konten, backup, monitoring</div>
+                <div class="text-sm font-bold text-ruby-600 dark:text-ruby-400 mt-2">Rp 400rb<span class="text-xs font-normal">/bulan</span></div>
+              </div>
+            </div>
+          </label>
+
+          <label class="check-card" data-addon="seo">
+            <input type="checkbox">
+            <div class="flex items-start gap-3">
+              <div class="w-9 h-9 rounded-lg bg-ruby-100 dark:bg-ruby-900/30 flex items-center justify-center text-ruby-600 dark:text-ruby-400 flex-shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="font-semibold text-sm">SEO Advanced</div>
+                <div class="text-xs text-ink-500 dark:text-ink-400 mt-0.5">Riset keyword + on-page optimization</div>
+                <div class="text-sm font-bold text-ruby-600 dark:text-ruby-400 mt-2">+Rp 600rb</div>
+              </div>
+            </div>
+          </label>
+        </div>
+      </section>
+
+      <!-- OPTIONS -->
+      <section class="bg-white dark:bg-ink-800 rounded-2xl shadow p-6">
+        <h2 class="font-display font-bold text-xl mb-4">5. Opsi Pembayaran</h2>
+
+        <div class="space-y-4">
+          <label class="flex items-center justify-between cursor-pointer p-3 rounded-lg hover:bg-ink-50 dark:hover:bg-ink-900 transition">
+            <div>
+              <div class="font-semibold text-sm">Termasuk PPN 11%</div>
+              <div class="text-xs text-ink-500 dark:text-ink-400">Wajib untuk badan usaha (PT/CV). Opsional untuk pribadi.</div>
+            </div>
+            <span class="toggle">
+              <input type="checkbox" id="ppnToggle">
+              <span class="toggle-slider"></span>
+            </span>
+          </label>
+
+          <label class="flex items-center justify-between cursor-pointer p-3 rounded-lg hover:bg-ink-50 dark:hover:bg-ink-900 transition">
+            <div>
+              <div class="font-semibold text-sm">Diskon 10% (early bird / repeat client)</div>
+              <div class="text-xs text-ink-500 dark:text-ink-400">Untuk klien kedua atau booking di muka.</div>
+            </div>
+            <span class="toggle">
+              <input type="checkbox" id="discountToggle">
+              <span class="toggle-slider"></span>
+            </span>
+          </label>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ============= KOLOM KANAN: SUMMARY STICKY ============= -->
+    <aside class="lg:col-span-1">
+      <div class="sticky top-24 space-y-4">
+
+        <!-- PRICE CARD -->
+        <div class="bg-gradient-to-br from-ruby-600 to-ruby-800 text-white rounded-2xl shadow-xl p-6 print-break">
+          <div class="text-xs uppercase tracking-wider opacity-80 font-semibold">Estimasi Total</div>
+          <div id="totalPrice" class="font-display font-bold text-4xl mt-2 price-display">Rp 1.750.000</div>
+          <div id="totalPriceNote" class="text-xs opacity-80 mt-1">belum termasuk PPN</div>
+
+          <div class="mt-5 pt-5 border-t border-white/20 space-y-2 text-sm">
+            <div class="flex justify-between">
+              <span class="opacity-80">Subtotal</span>
+              <span id="subtotalDisplay" class="font-semibold">Rp 1.750.000</span>
+            </div>
+            <div id="discountRow" class="hidden flex justify-between">
+              <span class="opacity-80">Diskon 10%</span>
+              <span id="discountDisplay" class="font-semibold text-yellow-200">- Rp 175.000</span>
+            </div>
+            <div id="ppnRow" class="hidden flex justify-between">
+              <span class="opacity-80">PPN 11%</span>
+              <span id="ppnDisplay" class="font-semibold">+ Rp 173.250</span>
+            </div>
+          </div>
+
+          <div class="mt-5 flex gap-2 no-print">
+            <button id="copyBtn" class="flex-1 bg-white/15 hover:bg-white/25 backdrop-blur-sm border border-white/20 rounded-lg py-2.5 px-3 text-sm font-semibold transition flex items-center justify-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+              Copy
+            </button>
+            <button id="printBtn" class="flex-1 bg-white/15 hover:bg-white/25 backdrop-blur-sm border border-white/20 rounded-lg py-2.5 px-3 text-sm font-semibold transition flex items-center justify-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+              Print / PDF
+            </button>
+          </div>
+        </div>
+
+        <!-- BREAKDOWN -->
+        <div class="bg-white dark:bg-ink-800 rounded-2xl shadow p-6 print-break">
+          <h3 class="font-display font-bold text-base mb-4">Rincian Item</h3>
+          <div id="breakdown" class="space-y-3 text-sm">
+            <!-- diisi via JS -->
+          </div>
+          <div id="breakdownEmpty" class="text-xs text-ink-500 dark:text-ink-400 italic text-center py-4">
+            Pilih tier & add-on untuk melihat rincian.
+          </div>
+        </div>
+
+        <!-- NEXT STEPS -->
+        <div class="bg-ink-100 dark:bg-ink-800 rounded-2xl p-5 text-sm no-print">
+          <div class="font-semibold mb-2">💡 Habis hitung?</div>
+          <ol class="space-y-1.5 text-ink-600 dark:text-ink-300 text-xs">
+            <li>1. Copy ringkasan atau print sebagai PDF</li>
+            <li>2. Isi <code class="bg-white dark:bg-ink-900 px-1 rounded">brief.md</code> untuk onboarding</li>
+            <li>3. Saya kirim proposal + service agreement dalam 24 jam</li>
+          </ol>
+        </div>
+
+      </div>
+    </aside>
+
+  </div>
+</main>
+
+<!-- ============= FOOTER ============= -->
+<footer class="no-print container py-8 border-t border-ink-200 dark:border-ink-800">
+  <div class="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-ink-500 dark:text-ink-400">
+    <div>© 2026 Ruby Web Studio · by Afiq Andico (Ruby) — Jimbaran, Bali</div>
+    <div class="flex items-center gap-3">
+      <a href="https://wa.me/6281234567890" class="hover:text-ruby-600 dark:hover:text-ruby-400 transition">WhatsApp</a>
+      <span>·</span>
+      <a href="mailto:hello@rubywebstudio.id" class="hover:text-ruby-600 dark:hover:text-ruby-400 transition">Email</a>
+      <span>·</span>
+      <a href="https://github.com/afiqandico" class="hover:text-ruby-600 dark:hover:text-ruby-400 transition">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+<!-- Hidden element for printing -->
+<div id="printHeader" class="hidden print:block">
+  <h1 class="font-bold text-2xl mb-2">Ringkasan Penawaran — Ruby Web Studio</h1>
+  <p class="text-sm">Dicetak: <span id="printDate"></span></p>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="toast">Tersalin ke clipboard ✓</div>
+
+<script>
+// ============================================================
+// STATE & CONFIG
+// ============================================================
+const state = {
+  tier: 'S',
+  pages: 5,
+  revisions: 2,
+  addons: {},
+  ppn: false,
+  discount: false,
+};
+
+// Pricing model (Rupiah)
+const TIER_CONFIG = {
+  S: {
+    name: 'Quick Landing',
+    basePrice: 800000,
+    perPage: 150000,
+    freeRevisions: 1,
+    extraRevisionPrice: 100000,
+    minPages: 3,
+    maxPages: 7,
+  },
+  M: {
+    name: 'Solid Portfolio',
+    basePrice: 2500000,
+    perPage: 350000,
+    freeRevisions: 2,
+    extraRevisionPrice: 200000,
+    minPages: 5,
+    maxPages: 11,
+  },
+  L: {
+    name: 'Premium',
+    basePrice: 8000000,
+    perPage: 1000000,
+    freeRevisions: 3,
+    extraRevisionPrice: 350000,
+    minPages: 8,
+    maxPages: 15,
+  },
+};
+
+const ADDON_CONFIG = {
+  blog:         { label: 'Blog / Artikel',           price: 750000,  type: 'oneTime' },
+  cms:          { label: 'CMS Custom',               price: 1250000, type: 'oneTime' },
+  customDesign: { label: 'Custom Design',            price: 1500000, type: 'oneTime' },
+  multilang:    { label: 'Multilingual (+1 bahasa)', price: 750000,  type: 'oneTime' },
+  maintenance:  { label: 'Maintenance Retainer',     price: 400000,  type: 'monthly' },
+  seo:          { label: 'SEO Advanced',             price: 600000,  type: 'oneTime' },
+};
+
+// ============================================================
+// FORMATTERS
+// ============================================================
+function formatRupiah(n) {
+  if (typeof n !== 'number' || isNaN(n)) n = 0;
+  return 'Rp ' + Math.round(n).toLocaleString('id-ID');
+}
+
+function formatRupiahShort(n) {
+  // Untuk maintenance "400rb/bln"
+  if (n >= 1000000) return (n / 1000000).toFixed(n % 1000000 === 0 ? 0 : 1) + 'jt';
+  if (n >= 1000) return Math.round(n / 1000) + 'rb';
+  return n.toString();
+}
+
+// ============================================================
+// CALCULATION ENGINE
+// ============================================================
+function calculate() {
+  const t = TIER_CONFIG[state.tier];
+
+  // Clamp pages ke range tier
+  const pages = Math.max(t.minPages, Math.min(t.maxPages, state.pages));
+  const extraPages = Math.max(0, pages - t.minPages);
+  const baseTotal = t.basePrice + extraPages * t.perPage;
+
+  // Extra revisions
+  const extraRev = Math.max(0, state.revisions - t.freeRevisions);
+  const revisionsTotal = extraRev * t.extraRevisionPrice;
+
+  // Add-ons
+  const addonsOneTime = Object.keys(state.addons)
+    .filter(k => state.addons[k] && ADDON_CONFIG[k].type === 'oneTime')
+    .reduce((sum, k) => sum + ADDON_CONFIG[k].price, 0);
+  const addonsMonthly = Object.keys(state.addons)
+    .filter(k => state.addons[k] && ADDON_CONFIG[k].type === 'monthly')
+    .reduce((sum, k) => sum + ADDON_CONFIG[k].price, 0);
+
+  const subtotal = baseTotal + revisionsTotal + addonsOneTime;
+  const discountAmount = state.discount ? subtotal * 0.10 : 0;
+  const afterDiscount = subtotal - discountAmount;
+  const ppnAmount = state.ppn ? afterDiscount * 0.11 : 0;
+  const total = afterDiscount + ppnAmount;
+
+  return {
+    tier: state.tier,
+    tierName: t.name,
+    pages,
+    baseTotal,
+    baseLabel: `${t.name} (${pages} halaman)`,
+    extraRev,
+    revisionsTotal,
+    addonsOneTime,
+    addonsMonthly,
+    subtotal,
+    discountAmount,
+    afterDiscount,
+    ppnAmount,
+    total,
+    selectedAddons: Object.keys(state.addons).filter(k => state.addons[k]),
+  };
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function render() {
+  const r = calculate();
+
+  // Pages slider constraints per tier
+  const t = TIER_CONFIG[state.tier];
+  const pagesSlider = document.getElementById('pagesSlider');
+  pagesSlider.min = t.minPages;
+  pagesSlider.max = t.maxPages;
+  if (state.pages < t.minPages) state.pages = t.minPages;
+  if (state.pages > t.maxPages) state.pages = t.maxPages;
+  pagesSlider.value = state.pages;
+  document.getElementById('pagesValue').textContent = state.pages;
+  document.getElementById('pagesMin').textContent = t.minPages;
+  document.getElementById('pagesMax').textContent = t.maxPages;
+  document.getElementById('pagesMid').textContent = Math.round((t.minPages + t.maxPages) / 2);
+
+  // Revisions note
+  const revNote = document.getElementById('revisionsNote');
+  if (state.revisions <= t.freeRevisions) {
+    revNote.innerHTML = `Tier <strong>${state.tier}</strong> sudah include <strong>${state.revisions}</strong>${state.revisions === t.freeRevisions ? '' : ' (free)'}. Tidak ada biaya tambahan.`;
+    revNote.classList.remove('text-ruby-600');
+  } else {
+    const extra = state.revisions - t.freeRevisions;
+    const cost = extra * t.extraRevisionPrice;
+    revNote.innerHTML = `Tier <strong>${state.tier}</strong> include <strong>${t.freeRevisions}</strong> revisi gratis. Tambahan <strong>${extra}×</strong> = <strong class="text-ruby-600 dark:text-ruby-400">+${formatRupiah(cost)}</strong>.`;
+  }
+
+  // Total price
+  const totalEl = document.getElementById('totalPrice');
+  const oldText = totalEl.textContent;
+  const newText = formatRupiah(r.total);
+  if (oldText !== newText) {
+    totalEl.textContent = newText;
+    totalEl.classList.add('is-pulsing');
+    setTimeout(() => totalEl.classList.remove('is-pulsing'), 400);
+  }
+  document.getElementById('totalPriceNote').textContent = state.ppn ? 'sudah termasuk PPN 11%' : 'belum termasuk PPN';
+
+  // Subtotal & extras
+  document.getElementById('subtotalDisplay').textContent = formatRupiah(r.subtotal);
+  const discountRow = document.getElementById('discountRow');
+  if (state.discount) {
+    discountRow.classList.remove('hidden');
+    discountRow.classList.add('flex');
+    document.getElementById('discountDisplay').textContent = '- ' + formatRupiah(r.discountAmount);
+  } else {
+    discountRow.classList.add('hidden');
+    discountRow.classList.remove('flex');
+  }
+  const ppnRow = document.getElementById('ppnRow');
+  if (state.ppn) {
+    ppnRow.classList.remove('hidden');
+    ppnRow.classList.add('flex');
+    document.getElementById('ppnDisplay').textContent = '+ ' + formatRupiah(r.ppnAmount);
+  } else {
+    ppnRow.classList.add('hidden');
+    ppnRow.classList.remove('flex');
+  }
+
+  // Breakdown
+  const bd = document.getElementById('breakdown');
+  const empty = document.getElementById('breakdownEmpty');
+  let items = [];
+
+  items.push({
+    label: r.baseLabel,
+    sub: `${formatRupiah(TIER_CONFIG[state.tier].basePrice)} base${r.pages > TIER_CONFIG[state.tier].minPages ? ` + ${r.pages - TIER_CONFIG[state.tier].minPages}×${formatRupiah(TIER_CONFIG[state.tier].perPage)}` : ''}`,
+    amount: r.baseTotal,
+  });
+
+  if (r.extraRev > 0) {
+    items.push({
+      label: `Revisi tambahan (${r.extraRev}×)`,
+      sub: `${formatRupiah(TIER_CONFIG[state.tier].extraRevisionPrice)} per ronde`,
+      amount: r.revisionsTotal,
+    });
+  }
+
+  r.selectedAddons.forEach(key => {
+    const cfg = ADDON_CONFIG[key];
+    items.push({
+      label: cfg.label,
+      sub: cfg.type === 'monthly' ? 'Berlangganan bulanan' : 'Sekali bayar',
+      amount: cfg.price,
+      recurring: cfg.type === 'monthly',
+    });
+  });
+
+  if (items.length > 0) {
+    empty.classList.add('hidden');
+    bd.innerHTML = items.map(it => `
+      <div class="flex justify-between items-start gap-3 pb-3 border-b border-ink-100 dark:border-ink-700 last:border-0 last:pb-0">
+        <div class="min-w-0 flex-1">
+          <div class="font-medium text-sm">${it.label}</div>
+          <div class="text-xs text-ink-500 dark:text-ink-400 mt-0.5">${it.sub}</div>
+        </div>
+        <div class="text-right flex-shrink-0">
+          <div class="font-semibold text-sm">${formatRupiah(it.amount)}</div>
+          ${it.recurring ? '<div class="text-xs text-ink-500 dark:text-ink-400">/bulan</div>' : ''}
+        </div>
+      </div>
+    `).join('');
+  } else {
+    empty.classList.remove('hidden');
+  }
+}
+
+// ============================================================
+// EVENT HANDLERS
+// ============================================================
+document.querySelectorAll('.tier-card').forEach(card => {
+  card.addEventListener('click', e => {
+    e.preventDefault();
+    document.querySelectorAll('.tier-card').forEach(c => c.classList.remove('is-active'));
+    card.classList.add('is-active');
+    state.tier = card.dataset.tier;
+    const t = TIER_CONFIG[state.tier];
+    if (state.pages < t.minPages) state.pages = t.minPages;
+    if (state.pages > t.maxPages) state.pages = t.maxPages;
+    if (state.revisions < t.freeRevisions) state.revisions = t.freeRevisions;
+    render();
+  });
+});
+
+document.getElementById('pagesSlider').addEventListener('input', e => {
+  state.pages = parseInt(e.target.value, 10);
+  render();
+});
+
+document.getElementById('revisionsSlider').addEventListener('input', e => {
+  state.revisions = parseInt(e.target.value, 10);
+  render();
+});
+
+document.querySelectorAll('.check-card').forEach(card => {
+  const cb = card.querySelector('input[type="checkbox"]');
+  card.addEventListener('click', e => {
+    e.preventDefault();
+    cb.checked = !cb.checked;
+    card.classList.toggle('is-checked', cb.checked);
+    state.addons[card.dataset.addon] = cb.checked;
+    render();
+  });
+});
+
+document.getElementById('ppnToggle').addEventListener('change', e => {
+  state.ppn = e.target.checked;
+  render();
+});
+
+document.getElementById('discountToggle').addEventListener('change', e => {
+  state.discount = e.target.checked;
+  render();
+});
+
+// Theme toggle
+document.getElementById('themeToggle').addEventListener('click', () => {
+  document.documentElement.classList.toggle('dark');
+  localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+});
+
+// Init theme
+if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+  document.documentElement.classList.add('dark');
+}
+
+// Copy summary
+function buildSummaryText() {
+  const r = calculate();
+  const lines = [];
+  lines.push('==============================================');
+  lines.push('  RINGKASAN PENAWARAN — RUBY WEB STUDIO');
+  lines.push('==============================================');
+  lines.push('');
+  lines.push(`Tier     : ${state.tier} (${r.tierName})`);
+  lines.push(`Halaman  : ${r.pages}`);
+  lines.push(`Revisi   : ${state.revisions}× (${TIER_CONFIG[state.tier].freeRevisions} gratis)`);
+  lines.push('');
+  lines.push('RINCIAN BIAYA');
+  lines.push('----------------------------------------------');
+  lines.push(`${r.baseLabel.padEnd(28)} ${formatRupiah(r.baseTotal).padStart(15)}`);
+  if (r.extraRev > 0) {
+    lines.push(`Revisi tambahan (${r.extraRev}×)`.padEnd(28) + ' '.repeat(15 - formatRupiah(r.revisionsTotal).length) + formatRupiah(r.revisionsTotal).padStart(15));
+  }
+  r.selectedAddons.forEach(key => {
+    const cfg = ADDON_CONFIG[key];
+    const label = cfg.label + (cfg.type === 'monthly' ? ' /bln' : '');
+    lines.push(label.padEnd(28) + formatRupiah(cfg.price).padStart(15));
+  });
+  lines.push('----------------------------------------------');
+  lines.push(`Subtotal`.padEnd(28) + formatRupiah(r.subtotal).padStart(15));
+  if (state.discount) {
+    lines.push(`Diskon 10%`.padEnd(28) + ('-' + formatRupiah(r.discountAmount)).padStart(15));
+  }
+  if (state.ppn) {
+    lines.push(`PPN 11%`.padEnd(28) + ('+' + formatRupiah(r.ppnAmount)).padStart(15));
+  }
+  lines.push('==============================================');
+  lines.push(`TOTAL`.padEnd(28) + formatRupiah(r.total).padStart(15));
+  if (r.addonsMonthly > 0) {
+    lines.push('');
+    lines.push(`+ Maintenance bulanan: ${formatRupiah(r.addonsMonthly)}/bln`);
+  }
+  lines.push('');
+  lines.push('— Ruby Web Studio · by Afiq Andico');
+  return lines.join('\n');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('is-visible');
+  setTimeout(() => t.classList.remove('is-visible'), 2200);
+}
+
+document.getElementById('copyBtn').addEventListener('click', async () => {
+  const text = buildSummaryText();
+  try {
+    await navigator.clipboard.writeText(text);
+    showToast('Ringkasan tersalin ✓');
+  } catch (e) {
+    // fallback
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); showToast('Ringkasan tersalin ✓'); }
+    catch (err) { showToast('Gagal menyalin — coba lagi'); }
+    document.body.removeChild(ta);
+  }
+});
+
+document.getElementById('printBtn').addEventListener('click', () => {
+  document.getElementById('printDate').textContent = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+  // Tampilkan header print
+  document.getElementById('printHeader').classList.remove('hidden');
+  window.print();
+  // Reset untuk tampilan layar
+  setTimeout(() => document.getElementById('printHeader').classList.add('hidden'), 100);
+});
+
+// First render
+render();
+</script>
+
+</body>
+</html>

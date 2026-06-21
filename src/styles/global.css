@@ -1,0 +1,131 @@
+/* @import must come before @tailwind directives */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base layer tweaks */
+@layer base {
+  :root {
+    scroll-behavior: smooth;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-base-100 font-sans text-base-content;
+    background-image:
+      radial-gradient(at 8% 0%, rgba(124, 156, 255, 0.08) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(94, 234, 212, 0.06) 0px, transparent 50%);
+    background-attachment: fixed;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-display tracking-tight;
+  }
+
+  code, pre, kbd {
+    @apply font-mono;
+  }
+
+  ::selection {
+    @apply bg-primary/40 text-base-100;
+  }
+}
+
+@layer components {
+  .container-prose {
+    @apply mx-auto w-full max-w-3xl px-4 sm:px-6;
+  }
+
+  .container-wide {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .link-underline {
+    @apply underline decoration-primary/40 underline-offset-4 transition-colors hover:decoration-primary;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl;
+  }
+
+  .grain {
+    position: relative;
+  }
+  .grain::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.04;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.7'/></svg>");
+  }
+
+  /* Code-style headings for sections */
+  .section-label {
+    @apply mb-2 font-mono text-xs uppercase tracking-widest text-accent-400;
+  }
+}
+
+@layer utilities {
+  .animate-fade-up {
+    animation: fadeUp 0.7s ease-out both;
+  }
+  .animate-fade {
+    animation: fade 1s ease-out both;
+  }
+  .text-shadow-sm {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Prose for markdown — code-friendly styling */
+.prose-dev {
+  @apply max-w-none leading-relaxed text-ink-100;
+}
+.prose-dev h2 { @apply mt-12 mb-4 font-display text-2xl text-ink-50; }
+.prose-dev h3 { @apply mt-10 mb-3 font-display text-xl text-ink-50; }
+.prose-dev p  { @apply mb-5; }
+.prose-dev a  { @apply link-underline text-accent-400; }
+.prose-dev ul { @apply mb-5 ml-6 list-disc; }
+.prose-dev ol { @apply mb-5 ml-6 list-decimal; }
+.prose-dev blockquote {
+  @apply my-6 border-l-4 border-accent-400/60 bg-ink-800/30 pl-4 py-2 italic text-ink-200;
+}
+.prose-dev code {
+  @apply rounded bg-ink-800 px-1.5 py-0.5 font-mono text-sm text-teal-400;
+}
+.prose-dev pre {
+  @apply mb-5 overflow-x-auto rounded-box border border-ink-700 bg-ink-900 p-4 font-mono text-sm;
+}
+.prose-dev pre code {
+  @apply bg-transparent p-0 text-ink-100;
+}
+.prose-dev img {
+  @apply my-6 rounded-box border border-ink-700;
+}
+.prose-dev table {
+  @apply mb-5 w-full border-collapse;
+}
+.prose-dev th {
+  @apply border-b border-ink-600 bg-ink-800/50 px-3 py-2 text-left font-mono text-xs uppercase tracking-widest text-ink-200;
+}
+.prose-dev td {
+  @apply border-b border-ink-700 px-3 py-2 text-sm;
+}

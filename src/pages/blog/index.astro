@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { SITE } from '../../consts';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+const slug = (id: string) => id.replace(/\.md$/, '');
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+<BaseLayout
+  title="Blog"
+  description={`Catatan dari ${SITE.name} — di balik karya, riset, dan percakapan.`}
+>
+  <section class="container-wide py-16 md:py-20">
+    <p class="section-label">~/blog</p>
+    <h1 class="font-display text-4xl text-ink-50 sm:text-5xl md:text-6xl">
+      Tulisan &amp; <span class="text-accent-400">cerita</span>.
+    </h1>
+    <p class="mt-4 max-w-2xl text-ink-200">
+      Bukan essay panjang. Bukan tutorial. Hanya catatan tentang apa yang sedang kupikirkan, dengarkan, dan rasakan — campur code, seni, dan kopi.
+    </p>
+  </section>
+
+  <section class="container-wide pb-20">
+    {posts.length === 0 && (
+      <p class="rounded-box border border-ink-700 bg-ink-800/40 p-8 text-center font-mono text-ink-300">
+        No posts yet. Add markdown di <code class="rounded bg-ink-900 px-1 text-teal-400">src/content/blog/</code>.
+      </p>
+    )}
+
+    <ul class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {posts.map((post, i) => (
+        <li class="animate-fade-up" style={`animation-delay: ${i * 60}ms`}>
+          <a href={`/blog/${slug(post.id)}/`}
+             class="card-hover group flex h-full flex-col overflow-hidden rounded-box border border-ink-700 bg-ink-800/30 transition-colors hover:border-accent-400/60">
+            {post.data.heroImage && (
+              <div class="aspect-[16/10] overflow-hidden">
+                <img
+                  src={post.data.heroImage}
+                  alt={post.data.heroAlt ?? post.data.title}
+                  loading="lazy"
+                  decoding="async"
+                  class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+              </div>
+            )}
+            <div class="flex flex-1 flex-col gap-2 p-5">
+              <p class="font-mono text-xs text-ink-300">{fmt(post.data.pubDate)}</p>
+              <h2 class="font-display text-xl leading-tight text-ink-50 transition-colors group-hover:text-accent-400">
+                {post.data.title}
+              </h2>
+              <p class="text-sm text-ink-200">{post.data.description}</p>
+              {post.data.tags.length > 0 && (
+                <div class="mt-auto flex flex-wrap gap-1.5 pt-2">
+                  {post.data.tags.map(t => (
+                    <span class="rounded-full border border-ink-600 bg-ink-900 px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest text-ink-300">
+                      #{t}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>

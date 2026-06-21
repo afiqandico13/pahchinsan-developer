@@ -1,0 +1,230 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../consts';
+
+// Biodata + highlights — combined from User Profile - Ruby.md
+const pengalaman = [
+  { year: '2026 — sekarang', role: 'IT Support', org: 'Cube Cafe Jimbaran', desc: 'Day job. Remote troubleshooting, automasi backup, network maintenance.' },
+  { year: '2024 — sekarang', role: 'Owner', org: 'Pilgrim\u2019s Records', desc: 'Label rekaman indie. Vokalis & produser di band psychedelic rock. Single + album release.' },
+  { year: '2024 — sekarang', role: 'Owner & Art Director', org: 'Another Waltz', desc: 'Kolektif seni — musik, lukis, foto, tulisan. Art exhibitions & residensi.' },
+  { year: '2025', role: 'Staf Khusus Rektor & Wakil Direktur', org: 'ITB STIKOM Bali Kampus Abiansemal', desc: 'Skripsi Orange Data Mining — Marketing/SDM/Operasional classification.' },
+  { year: '2023 — 2024', role: 'General Assistant Manager', org: 'Soil Food Temple, Canggu', desc: 'Operations + customer experience.' },
+  { year: '2022 — 2024', role: 'Supervisor & Vinyl DJ', org: 'Westside Muzeq Record Store', desc: 'Music curation + retail management.' },
+];
+
+const techSkills = [
+  { group: 'Frontend', items: ['Astro', 'Next.js', 'Vue', 'React', 'Tailwind CSS', 'TypeScript', 'daisyUI'] },
+  { group: 'Backend',  items: ['Node.js', 'Python (Flask/FastAPI)', 'PHP', 'REST API', 'WebSocket'] },
+  { group: 'Data / ML', items: ['Python', 'scikit-learn', 'Orange Data Mining', 'Pandas', 'NumPy', 'Matplotlib'] },
+  { group: 'Tools',    items: ['Git', 'Docker', 'VSCode', 'WSL', 'Vercel', 'Netlify', 'Figma'] },
+];
+
+const sertifikasi = [
+  'DOT Test (Grade 1 & 2)',
+  'CIPMP — Project Management',
+  'FCNS — Network Security',
+  'LSPP — Programmer',
+  'DM — Digital Marketing',
+  'Japanese N3',
+];
+---
+<BaseLayout
+  title="About"
+  description="Tentang PahchinSan Developer (Afiq Andico / Pahchin) — IT Support, web/app developer, seniman, dan periset."
+>
+  <!-- INTRO -->
+  <section class="container-wide py-16 md:py-24">
+    <div class="grid gap-12 md:grid-cols-12">
+      <div class="md:col-span-7">
+        <p class="section-label">~/about</p>
+        <h1 class="font-display text-4xl leading-tight text-ink-50 sm:text-5xl md:text-6xl">
+          Saya <span class="text-accent-400">Pahchin</span>.<br />
+          Ini studio saya.
+        </h1>
+        <div class="prose-dev mt-8">
+          <p>
+            Saya <strong>{SITE.fullName}</strong> — dipanggil <strong>Pahchin</strong> di dunia tech, <strong>Ruby Rubhin</strong> di dunia seni. Lahir di Situbondo, 9 Juli 2001. Tinggal di Denpasar Utara, Bali sejak usia 1–2 tahun.
+          </p>
+          <p>
+            {SITE.name} adalah studio kecil yang aku bangun untuk merangkai ketiganya — <strong>teknologi, data, dan seni</strong> — jadi satu workflow yang konsisten. Project root di <code class="text-teal-400">C:\Users\Afiq Andico\Projects\</code>.
+          </p>
+          <p>
+            Motto: <em>"{SITE.motto}"</em> — bukan jargon, itu kompas harian.
+          </p>
+          <p>
+            Saat ini saya IT Support di Cube Cafe Jimbaran, sambil menunggu yudisium S1 Sistem Informasi ITB STIKOM Bali (5 Juli 2026). Setelah itu, riset S2 soal <em>Butterfly Effect in IT</em>.
+          </p>
+        </div>
+      </div>
+
+      <aside class="md:col-span-5">
+        <div class="sticky top-24 space-y-4">
+          <!-- ID CARD -->
+          <div class="overflow-hidden rounded-box border border-ink-700 bg-ink-800">
+            <div class="border-b border-ink-700 bg-ink-900 px-5 py-3">
+              <div class="flex items-center gap-2">
+                <span class="h-2.5 w-2.5 rounded-full bg-coral-400"></span>
+                <span class="h-2.5 w-2.5 rounded-full bg-yellow-400"></span>
+                <span class="h-2.5 w-2.5 rounded-full bg-teal-400"></span>
+                <span class="ml-2 font-mono text-xs text-ink-300">whoami.json</span>
+              </div>
+            </div>
+            <div class="space-y-3 p-5 font-mono text-sm">
+              <div class="flex justify-between"><span class="text-ink-300">name</span><span class="text-ink-50">"Pahchin"</span></div>
+              <div class="flex justify-between"><span class="text-ink-300">aliases</span><span class="text-ink-50">["Ruby", "PahchinSan"]</span></div>
+              <div class="flex justify-between"><span class="text-ink-300">born</span><span class="text-ink-50">"Situbondo, 2001"</span></div>
+              <div class="flex justify-between"><span class="text-ink-300">base</span><span class="text-ink-50">"Denpasar, Bali"</span></div>
+              <div class="flex justify-between"><span class="text-ink-300">role</span><span class="text-accent-400">"Full-stack + ML"</span></div>
+              <div class="flex justify-between"><span class="text-ink-300">email</span><span class="text-ink-100 text-xs">{SITE.email}</span></div>
+              <div class="flex justify-between"><span class="text-ink-300">github</span><span class="text-ink-100 text-xs">@afiqandico13</span></div>
+            </div>
+          </div>
+
+          <!-- CONTACT CARD -->
+          <div class="rounded-box border border-ink-600 bg-ink-800/50 p-5">
+            <p class="font-mono text-xs uppercase tracking-widest text-accent-400">~/contact</p>
+            <ul class="mt-3 space-y-1.5 font-mono text-sm">
+              <li class="flex items-center gap-2 text-ink-200">
+                <span class="text-ink-400">email</span> → <a href={`mailto:${SITE.email}`} class="text-accent-400 hover:underline">{SITE.email}</a>
+              </li>
+              <li class="flex items-center gap-2 text-ink-200">
+                <span class="text-ink-400">wa</span> → <a href={`https://wa.me/62${SITE.whatsapp.slice(1)}`} class="text-accent-400 hover:underline">{SITE.whatsapp}</a>
+              </li>
+              <li class="flex items-center gap-2 text-ink-200">
+                <span class="text-ink-400">loc</span> → Jimbaran, Bali 🇮🇩
+              </li>
+            </ul>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- TECH STACK -->
+  <section class="border-y border-ink-700 bg-ink-800/30 py-16 md:py-24">
+    <div class="container-wide">
+      <p class="section-label">~/skills</p>
+      <h2 class="mb-10 font-display text-3xl text-ink-50 sm:text-4xl">Tech yang biasa aku pakai.</h2>
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {techSkills.map(group => (
+          <div>
+            <p class="mb-3 font-mono text-xs uppercase tracking-widest text-accent-400">{group.group}</p>
+            <ul class="space-y-1.5">
+              {group.items.map(item => (
+                <li class="font-mono text-sm text-ink-100">› {item}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- PENGALAMAN KERJA -->
+  <section class="container-wide py-16 md:py-24">
+    <p class="section-label">~/experience</p>
+    <h2 class="mb-10 font-display text-3xl text-ink-50 sm:text-4xl">Pengalaman.</h2>
+    <ol class="relative space-y-8 border-l border-ink-700 pl-8">
+      {pengalaman.map(p => (
+        <li class="relative">
+          <span class="absolute -left-[42px] flex h-8 w-8 items-center justify-center rounded-full border border-accent-400 bg-ink-900 font-mono text-[10px] text-accent-400">
+            ●
+          </span>
+          <p class="font-mono text-xs uppercase tracking-widest text-ink-300">{p.year}</p>
+          <h3 class="mt-1 font-display text-lg text-ink-50">{p.role} <span class="text-ink-300">— {p.org}</span></h3>
+          <p class="mt-1 text-sm text-ink-200">{p.desc}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <!-- SERTIFIKASI -->
+  <section class="border-t border-ink-700 bg-ink-800/30 py-16 md:py-24">
+    <div class="container-wide">
+      <p class="section-label">~/certs</p>
+      <h2 class="mb-6 font-display text-3xl text-ink-50 sm:text-4xl">Sertifikasi.</h2>
+      <div class="flex flex-wrap gap-2">
+        {sertifikasi.map(cert => (
+          <span class="rounded-full border border-ink-600 bg-ink-900 px-4 py-1.5 font-mono text-sm text-ink-100">
+            ✓ {cert}
+          </span>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- RESEARCH -->
+  <section class="container-wide py-16 md:py-24">
+    <p class="section-label">~/research</p>
+    <h2 class="mb-10 font-display text-3xl text-ink-50 sm:text-4xl">Penelitian.</h2>
+    <div class="grid gap-6 md:grid-cols-2">
+      <div class="rounded-box border border-ink-600 bg-ink-800/30 p-6">
+        <p class="font-mono text-xs uppercase tracking-widest text-accent-400">skripsi · 2025</p>
+        <h3 class="mt-2 font-display text-xl text-ink-50">Orange Data Mining</h3>
+        <p class="mt-2 text-sm text-ink-200">
+          Optimasi Manajemen Marketing, SDM, &amp; Operasional Kampus Abiansemal — integrasi tiga domain dalam satu model klasifikasi terpadu.
+        </p>
+        <div class="mt-4 grid grid-cols-3 gap-3">
+          <div class="rounded border border-ink-700 bg-ink-900 p-3 text-center">
+            <p class="font-mono text-xl text-accent-400">94%</p>
+            <p class="font-mono text-[10px] text-ink-300">Marketing<br>(Random Forest)</p>
+          </div>
+          <div class="rounded border border-ink-700 bg-ink-900 p-3 text-center">
+            <p class="font-mono text-xl text-accent-400">77%</p>
+            <p class="font-mono text-[10px] text-ink-300">SDM<br>(Decision Tree)</p>
+          </div>
+          <div class="rounded border border-ink-700 bg-ink-900 p-3 text-center">
+            <p class="font-mono text-xl text-accent-400">89%</p>
+            <p class="font-mono text-[10px] text-ink-300">Operasional<br>(SVM/k-NN)</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="rounded-box border border-ink-600 bg-ink-800/30 p-6">
+        <p class="font-mono text-xs uppercase tracking-widest text-accent-400">riset orisinal · 2025</p>
+        <h3 class="mt-2 font-display text-xl text-ink-50">Teori Andico-Ruby</h3>
+        <p class="mt-2 text-sm text-ink-200">
+          Metode enkripsi hibrid untuk anonimisasi data — Rumus Andico (Dynamic Recursive Shift) + Rumus Ruby (Transformasi Energi-Informasi).
+        </p>
+        <div class="mt-4 grid grid-cols-3 gap-3">
+          <div class="rounded border border-ink-700 bg-ink-900 p-3 text-center">
+            <p class="font-mono text-xl text-teal-400">9.1</p>
+            <p class="font-mono text-[10px] text-ink-300">bit entropy</p>
+          </div>
+          <div class="rounded border border-ink-700 bg-ink-900 p-3 text-center">
+            <p class="font-mono text-xl text-teal-400">0.1%</p>
+            <p class="font-mono text-[10px] text-ink-300">collision</p>
+          </div>
+          <div class="rounded border border-ink-700 bg-ink-900 p-3 text-center">
+            <p class="font-mono text-xl text-teal-400">0.14ms</p>
+            <p class="font-mono text-[10px] text-ink-300">per data</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ALIASES -->
+  <section class="border-t border-ink-700 bg-ink-800/30 py-16 md:py-24">
+    <div class="container-wide">
+      <p class="section-label">~/aliases</p>
+      <h2 class="mb-3 font-display text-3xl text-ink-50 sm:text-4xl">Saya juga dikenal sebagai:</h2>
+      <p class="mb-10 max-w-2xl text-ink-200">
+        Tergantung konteksnya — di tech pakai Pahchin, di seni pakai Ruby Rubhin, di foto pakai AFuckingCo, di musik label-nya Pilgrim's Records.
+      </p>
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {[
+          { name: 'Pahchin / PahchinSan', use: 'Tech & dev work' },
+          { name: 'Ruby Rubhin', use: 'Seni, musik, lukis' },
+          { name: 'AFuckingCo', use: 'Fotografi' },
+          { name: "Pilgrim's Records", use: 'Label rekaman indie' },
+        ].map(a => (
+          <div class="rounded-box border border-ink-600 bg-ink-900/50 p-4">
+            <p class="font-display text-lg text-accent-400">{a.name}</p>
+            <p class="mt-1 font-mono text-xs text-ink-300">{a.use}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

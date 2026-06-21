@@ -1,0 +1,192 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../consts';
+
+const categories = [
+  { id: 'web', label: 'Web & App', icon: '⌘' },
+  { id: 'data', label: 'Data & ML', icon: '∫' },
+  { id: 'research', label: 'Research', icon: '◊' },
+  { id: 'creative', label: 'Creative (Side)', icon: '✦' },
+];
+
+const projects = [
+  {
+    cat: 'web',
+    title: 'PahchinSan Developer Site',
+    desc: 'Website ini sendiri. Astro 4 + Tailwind + daisyUI, dark theme, mono fonts, deploy-ready.',
+    stack: ['Astro 4', 'Tailwind', 'daisyUI', 'TypeScript'],
+    year: '2026',
+    status: 'live',
+    href: 'https://github.com/afiqandico13/pahchinsan-developer',
+    img: 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&w=1200&h=800&q=80',
+  },
+  {
+    cat: 'web',
+    title: 'Taskflow — Demo Web App',
+    desc: 'Task management SPA dengan auth, CRUD, filter, search. Single-file React 18.',
+    stack: ['React 18', 'Babel', 'LocalStorage'],
+    year: '2026',
+    status: 'live',
+    href: '/demos/',
+    img: 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?auto=format&fit=crop&w=1200&h=800&q=80',
+  },
+  {
+    cat: 'web',
+    title: 'Studio Pricing Calculator',
+    desc: 'Interactive pricing calculator untuk jasa web portfolio. Tier S/M/L + add-ons.',
+    stack: ['Vanilla HTML', 'Tailwind CDN'],
+    year: '2026',
+    status: 'live',
+    href: '/demos/',
+    img: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1200&h=800&q=80',
+  },
+  {
+    cat: 'data',
+    title: 'Skripsi — Orange Data Mining',
+    desc: 'Optimasi manajemen Marketing/SDM/Operasional kampus. Random Forest 94% / Decision Tree 77% / SVM k-NN 89%.',
+    stack: ['Orange Data Mining', 'scikit-learn', 'Random Forest', 'SVM', 'k-NN'],
+    year: '2025',
+    status: 'completed',
+    href: '/about/',
+    img: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&h=800&q=80',
+  },
+  {
+    cat: 'research',
+    title: 'Teori Andico-Ruby',
+    desc: 'Metode enkripsi hibrid orisinal. Entropy 9.1 bit, collision 0.1%, 0.14 ms/data. Desktop + Web (Flask).',
+    stack: ['Python', 'Flask', 'Cryptography'],
+    year: '2025',
+    status: 'completed',
+    href: '/about/',
+    img: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=1200&h=800&q=80',
+  },
+  {
+    cat: 'creative',
+    title: 'Jimmy Flaeur — Album',
+    desc: 'CD Album kolaborasi dengan 10+ musisi. Psychedelic folk dari Bali.',
+    stack: ['Music', 'Production'],
+    year: '2021',
+    status: 'released',
+    href: '/blog/jimmy-flaeur-album/',
+    img: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&h=800&q=80',
+  },
+  {
+    cat: 'creative',
+    title: 'Pilgrimage Tour 2024',
+    desc: 'Tur internasional — Jepang, LA, Taiwan. 12 karya baru dalam 3 bulan. Sebagai Ruby Rubhin.',
+    stack: ['Art', 'Exhibition'],
+    year: '2024',
+    status: 'completed',
+    href: '/blog/pilgrimage-tour-2024/',
+    img: 'https://images.unsplash.com/photo-1493863641943-9b68992a8d07?auto=format&fit=crop&w=1200&h=800&q=80',
+  },
+  {
+    cat: 'creative',
+    title: '5 Lukisan Cat Genteng',
+    desc: 'Lukisan medium cat genteng — Anger Of The Sun, Bright Blue Sky, Dance, Fake Rainbow, Flame Dance.',
+    stack: ['Painting', 'Mixed media'],
+    year: '2019–2021',
+    status: 'archive',
+    href: '/blog/lima-lukisan-pertama/',
+    img: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=1200&h=800&q=80',
+  },
+];
+---
+<BaseLayout
+  title="Work"
+  description="Portofolio PahchinSan Developer — web app, machine learning, research, dan side projects kreatif."
+>
+  <!-- HERO -->
+  <section class="container-wide py-16 md:py-24">
+    <p class="section-label">~/work</p>
+    <h1 class="font-display text-4xl text-ink-50 sm:text-5xl md:text-6xl">
+      Selected <span class="text-accent-400">work</span>.
+    </h1>
+    <p class="mt-4 max-w-2xl text-lg text-ink-200">
+      Proyek yang udah aku bangun atau kontribusikan — fokus di web, data, dan occasional creative side projects. Filter per kategori di bawah.
+    </p>
+  </section>
+
+  <!-- CATEGORY FILTER -->
+  <section class="container-wide pb-4">
+    <div class="flex flex-wrap gap-2">
+      <button class="btn btn-sm btn-primary" data-filter="all">all</button>
+      {categories.map(c => (
+        <button class="btn btn-sm btn-outline" data-filter={c.id}>{c.icon} {c.label}</button>
+      ))}
+    </div>
+  </section>
+
+  <!-- PROJECTS GRID -->
+  <section class="container-wide pb-16 md:pb-24">
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" id="projects-grid">
+      {projects.map(p => (
+        <article
+          class="card-hover group flex flex-col overflow-hidden rounded-box border border-ink-600 bg-ink-800/30 transition-all hover:border-accent-400/60"
+          data-cat={p.cat}
+        >
+          <a href={p.href} class="block">
+            <div class="aspect-[4/3] overflow-hidden bg-ink-900">
+              <img
+                src={p.img}
+                alt={p.title}
+                loading="lazy"
+                class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+            </div>
+          </a>
+          <div class="flex flex-1 flex-col space-y-2 p-5">
+            <div class="flex items-center justify-between gap-2">
+              <span class="font-mono text-[10px] uppercase tracking-widest text-accent-400">{p.cat}</span>
+              <span class:list={[
+                'rounded-full px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest',
+                p.status === 'live' ? 'border border-teal-400/40 bg-teal-400/10 text-teal-400' :
+                p.status === 'completed' ? 'border border-accent-400/40 bg-accent-400/10 text-accent-400' :
+                'border border-ink-500 bg-ink-700/40 text-ink-300',
+              ]}>{p.status}</span>
+            </div>
+            <h3 class="font-display text-lg text-ink-50">{p.title}</h3>
+            <p class="text-sm text-ink-200">{p.desc}</p>
+            <div class="flex flex-wrap gap-1.5 pt-1">
+              {p.stack.map(s => (
+                <span class="rounded border border-ink-600 bg-ink-900 px-1.5 py-0.5 font-mono text-[10px] text-ink-200">{s}</span>
+              ))}
+            </div>
+            <div class="mt-auto flex items-center justify-between pt-3 font-mono text-xs text-ink-300">
+              <span>{p.year}</span>
+              <a href={p.href} class="text-accent-400 hover:underline">{p.cat === 'creative' ? 'Catatan →' : 'Lihat →'}</a>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- FILTER SCRIPT (vanilla JS) -->
+  <script is:inline>
+    (() => {
+      const buttons = document.querySelectorAll('[data-filter]');
+      const grid = document.getElementById('projects-grid');
+      if (!buttons.length || !grid) return;
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const filter = btn.getAttribute('data-filter');
+          // Update button state
+          buttons.forEach(b => b.classList.remove('btn-primary'));
+          buttons.forEach(b => b.classList.add('btn-outline'));
+          btn.classList.add('btn-primary');
+          btn.classList.remove('btn-outline');
+          // Filter projects
+          const items = grid.querySelectorAll('[data-cat]');
+          items.forEach(item => {
+            if (filter === 'all' || item.getAttribute('data-cat') === filter) {
+              item.style.display = '';
+            } else {
+              item.style.display = 'none';
+            }
+          });
+        });
+      });
+    })();
+  </script>
+</BaseLayout>

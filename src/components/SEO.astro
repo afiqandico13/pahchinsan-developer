@@ -1,0 +1,45 @@
+---
+import { SITE, NAV, SOCIAL } from '../consts';
+const { title, description = SITE.description, image = SITE.ogImage, type = 'website', canonical } = Astro.props;
+const url = canonical ?? new URL(Astro.url.pathname, SITE.url).toString();
+const fullImage = image.startsWith('http') ? image : new URL(image, SITE.url).toString();
+---
+<title>{title} — {SITE.name}</title>
+<meta name="description" content={description} />
+<meta name="author" content={SITE.author} />
+<link rel="canonical" href={url} />
+<meta name="theme-color" content="#0f0d0c" />
+<meta name="generator" content={Astro.generator} />
+<meta name="robots" content="index,follow" />
+
+<!-- Open Graph -->
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={SITE.name} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={url} />
+<meta property="og:image" content={fullImage} />
+<meta property="og:locale" content={SITE.locale} />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={fullImage} />
+
+<!-- Schema.org Organization -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: SITE.name,
+  url: SITE.url,
+  logo: new URL('/favicon.svg', SITE.url).toString(),
+  sameAs: SOCIAL.map(s => s.url),
+  founder: { '@type': 'Person', name: SITE.author },
+})} />
+
+<!-- Local nav for crawlers -->
+<link rel="alternate" type="application/rss+xml" title={`${SITE.name} — Catatan`} href="/rss.xml" />
+{SOCIAL.map(s => (
+  <link rel="me" href={s.url} />
+))}

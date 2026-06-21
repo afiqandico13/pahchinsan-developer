@@ -1,0 +1,45 @@
+---
+import { SITE, SOCIAL } from '../consts';
+const year = new Date().getFullYear();
+---
+<footer class="mt-24 border-t border-ink-700 bg-ink-800/30">
+  <div class="container-wide grid gap-10 py-12 md:grid-cols-3">
+    <div class="space-y-3">
+      <p class="font-display text-xl text-ink-50">{SITE.brandShort}<span class="text-accent-400">.</span>dev</p>
+      <p class="max-w-sm text-sm text-ink-200">{SITE.description}</p>
+      <p class="font-mono text-xs text-ink-300">Bali, Indonesia · Didirikan {SITE.founded}</p>
+    </div>
+
+    <div>
+      <h3 class="mb-3 font-mono text-xs font-semibold uppercase tracking-widest text-ink-300">~/socials</h3>
+      <ul class="space-y-2 font-mono text-sm">
+        {SOCIAL.map(s => (
+          <li>
+            <a class="link link-hover text-ink-100 hover:text-accent-400" href={s.url} rel="noopener me" target="_blank">
+              <span>{s.name}</span>
+              <span class="ml-1 text-ink-400">— {s.handle}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div>
+      <h3 class="mb-3 font-mono text-xs font-semibold uppercase tracking-widest text-ink-300">~/nav</h3>
+      <ul class="space-y-2 font-mono text-sm">
+        <li><a class="link link-hover text-ink-100 hover:text-accent-400" href="/about/">about</a></li>
+        <li><a class="link link-hover text-ink-100 hover:text-accent-400" href="/work/">work</a></li>
+        <li><a class="link link-hover text-ink-100 hover:text-accent-400" href="/demos/">demos</a></li>
+        <li><a class="link link-hover text-ink-100 hover:text-accent-400" href="/studio/">studio</a></li>
+        <li><a class="link link-hover text-ink-100 hover:text-accent-400" href="/blog/">blog</a></li>
+        <li><a class="link link-hover text-ink-100 hover:text-accent-400" href="/rss.xml">rss</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-ink-700 py-5">
+    <div class="container-wide flex flex-col items-center justify-between gap-2 font-mono text-xs text-ink-300 md:flex-row">
+      <p>© {year} {SITE.name} by {SITE.author}. All rights reserved.</p>
+      <p>built with Astro · Tailwind · daisyUI · love</p>
+    </div>
+  </div>
+</footer>

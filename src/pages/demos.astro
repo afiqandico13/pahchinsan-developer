@@ -1,0 +1,95 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../consts';
+
+const demos = [
+  {
+    title: 'Taskflow — Task Management',
+    desc: 'Aplikasi manajemen tugas dengan auth (login/register), CRUD task, filter by status, search, dan localStorage persistence. Single-file SPA pakai React 18 + Babel.',
+    stack: ['React 18', 'Babel standalone', 'LocalStorage', 'Single HTML'],
+    href: '/taskflow-demo-app.html',
+    img: 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?auto=format&fit=crop&w=1200&h=800&q=80',
+    tag: 'Web App',
+  },
+  {
+    title: 'Studio Pricing Calculator',
+    desc: 'Interactive pricing calculator untuk jasa web portfolio. Tier S/M/L + 6 add-ons, format Rupiah real-time, copy/print summary, dark/light mode.',
+    stack: ['Vanilla HTML', 'Tailwind CDN', 'LocalStorage', 'Offline-capable'],
+    href: '/pricing-calculator.html',
+    img: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1200&h=800&q=80',
+    tag: 'Tool',
+  },
+];
+---
+<BaseLayout
+  title="Demos"
+  description="Live demo aplikasi yang PahchinSan Developer bangun — task management, pricing calculator, dan tool lainnya. Bisa langsung dicoba di browser."
+>
+  <!-- HERO -->
+  <section class="container-wide py-16 md:py-24">
+    <p class="section-label">~/demos</p>
+    <h1 class="font-display text-4xl text-ink-50 sm:text-5xl md:text-6xl">
+      Live <span class="text-accent-400">demos</span>.
+    </h1>
+    <p class="mt-4 max-w-2xl text-lg text-ink-200">
+      Aplikasi & tool yang udah aku bangun — bisa langsung dicoba di browser. Source code ada di repo GitHub masing-masing. Ada request demo lain? <a href="/contact/" class="link-underline text-accent-400">Hubungi</a>.
+    </p>
+  </section>
+
+  <!-- DEMO LIST -->
+  <section class="container-wide pb-16 md:pb-24">
+    <div class="space-y-12">
+      {demos.map((demo, idx) => (
+        <article class="overflow-hidden rounded-box border border-ink-700 bg-ink-800/30">
+          <div class="grid gap-0 md:grid-cols-12">
+            <div class="md:col-span-5">
+              <div class="aspect-video overflow-hidden bg-ink-900 md:aspect-auto md:h-full">
+                <img
+                  src={demo.img}
+                  alt={demo.title}
+                  loading="lazy"
+                  class="h-full w-full object-cover"
+                />
+              </div>
+            </div>
+            <div class="space-y-4 p-6 md:col-span-7 md:p-8">
+              <div class="flex items-center gap-3">
+                <span class="rounded-full border border-accent-400/40 bg-accent-400/10 px-3 py-1 font-mono text-xs uppercase tracking-widest text-accent-400">
+                  {demo.tag}
+                </span>
+                <span class="font-mono text-xs text-ink-300">#{String(idx + 1).padStart(2, '0')}</span>
+              </div>
+              <h2 class="font-display text-2xl text-ink-50 sm:text-3xl">{demo.title}</h2>
+              <p class="text-ink-200">{demo.desc}</p>
+              <div class="flex flex-wrap gap-2">
+                {demo.stack.map(s => (
+                  <span class="rounded border border-ink-600 bg-ink-900 px-2 py-0.5 font-mono text-xs text-ink-200">{s}</span>
+                ))}
+              </div>
+              <div class="flex flex-wrap gap-3 pt-2">
+                <a href={demo.href} target="_blank" rel="noopener" class="btn btn-primary btn-sm">
+                  Buka di tab baru →
+                </a>
+              </div>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- NOTE -->
+  <section class="border-t border-ink-700 bg-ink-800/30 py-12">
+    <div class="container-wide">
+      <div class="rounded-box border border-ink-600 bg-ink-800 p-6 font-mono text-sm text-ink-100">
+        <p class="mb-2 text-xs uppercase tracking-widest text-accent-400">$ cat README.md</p>
+        <p class="text-ink-200">
+          Semua demo di sini standalone — bisa dibuka langsung di browser tanpa server. Beberapa pakai CDN yang akan ter-cache setelah load pertama.
+        </p>
+        <p class="mt-2 text-ink-200">
+          Ingin demo dengan backend nyata? <a href="/contact/" class="text-accent-400 underline decoration-accent-400/40 underline-offset-4 hover:decoration-accent-400">Tanya</a> untuk project custom.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
