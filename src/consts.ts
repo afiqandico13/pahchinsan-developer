@@ -11,24 +11,24 @@ export const SITE = {
   url: 'https://pahchinsan.vercel.app',
   locale: 'id_ID',
   ogImage: '/og-default.svg',
-  author: 'Pahchin San',
+  author: 'Pahchin',
   fullName: 'Afiq Andico Pangimpian',
-  aliases: ['Pahchin', 'PahchinSan', 'Ruby', 'Ruby Rubhin'],
+  role: 'IT Support @ Cube Cafe Jimbaran',
   bornPlace: 'Situbondo, Jawa Timur',
   livePlace: 'Denpasar Utara, Bali',
   email: 'afiqandico13@gmail.com',
   whatsapp: '08990308936',
-  founded: 2019,
+  founded: 2024,
   motto: 'Code with intent. Ship with confidence.',
 } as const;
 
 export const SOCIAL = [
-  { name: 'GitHub',  handle: '@afiqandico13', url: 'https://github.com/afiqandico13' },
-  { name: 'Instagram — Pahchin',     handle: '@pahchin',     url: 'https://instagram.com/pahchin' },
-  { name: 'Instagram — Another Waltz', handle: '@anotherwaltz', url: 'https://instagram.com/anotherwaltz' },
-  { name: 'Instagram — Pilgrim\u2019s Records', handle: '@pilgrims.records', url: 'https://instagram.com/pilgrims.records' },
-  { name: 'Linktree', handle: 'linktr.ee/anotherwaltz', url: 'https://linktr.ee/anotherwaltz' },
+  { name: 'GitHub',  handle: '@pahchinsan', url: 'https://github.com/pahchinsan' },
+  { name: 'GitHub (personal)', handle: '@afiqandico13', url: 'https://github.com/afiqandico13' },
+  { name: 'LinkedIn', handle: 'Afiq Andico', url: 'https://linkedin.com/in/afiqandico' },
+  { name: 'Instagram', handle: '@pahchin.dev', url: 'https://instagram.com/pahchin.dev' },
   { name: 'WhatsApp', handle: '+62 899 0308 936', url: 'https://wa.me/628990308936' },
+  { name: 'Email', handle: 'afiqandico13@gmail.com', url: 'mailto:afiqandico13@gmail.com' },
 ] as const;
 
 export const NAV = [
@@ -36,8 +36,6 @@ export const NAV = [
   { href: '/work/',      label: 'Work' },
   { href: '/demos/',     label: 'Demos' },
   { href: '/studio/',    label: 'Studio' },
-  { href: '/blog/',      label: 'Blog' },
-  { href: '/art/',       label: 'Art' },
   { href: '/about/',     label: 'About' },
   { href: '/contact/',   label: 'Contact' },
 ] as const;

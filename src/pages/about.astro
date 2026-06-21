@@ -2,21 +2,20 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { SITE } from '../consts';
 
-// Biodata + highlights — combined from User Profile - Ruby.md
+// Work history — IT-relevant only
 const pengalaman = [
-  { year: '2026 — sekarang', role: 'IT Support', org: 'Cube Cafe Jimbaran', desc: 'Day job. Remote troubleshooting, automasi backup, network maintenance.' },
-  { year: '2024 — sekarang', role: 'Owner', org: 'Pilgrim\u2019s Records', desc: 'Label rekaman indie. Vokalis & produser di band psychedelic rock. Single + album release.' },
-  { year: '2024 — sekarang', role: 'Owner & Art Director', org: 'Another Waltz', desc: 'Kolektif seni — musik, lukis, foto, tulisan. Art exhibitions & residensi.' },
-  { year: '2025', role: 'Staf Khusus Rektor & Wakil Direktur', org: 'ITB STIKOM Bali Kampus Abiansemal', desc: 'Skripsi Orange Data Mining — Marketing/SDM/Operasional classification.' },
-  { year: '2023 — 2024', role: 'General Assistant Manager', org: 'Soil Food Temple, Canggu', desc: 'Operations + customer experience.' },
-  { year: '2022 — 2024', role: 'Supervisor & Vinyl DJ', org: 'Westside Muzeq Record Store', desc: 'Music curation + retail management.' },
+  { year: '2026 — sekarang', role: 'IT Support', org: 'Cube Cafe Jimbaran', desc: 'Day job. Remote troubleshooting, automasi backup, network maintenance, helpdesk.' },
+  { year: '2025', role: 'Staf Khusus Rektor & Wakil Direktur Operasional', org: 'ITB STIKOM Bali Kampus Abiansemal', desc: 'Skripsi Orange Data Mining — klasifikasi Marketing/SDM/Operasional. Digitalisasi administrasi via Google Workspace.' },
+  { year: '2024 — 2025', role: 'Supervisor Computer Club Admin', org: 'PT. Colizeum Arena Bali Ubud', desc: 'Network & computer lab management.' },
+  { year: '2024 — sekarang', role: 'Marketing Representative (MGM Program)', org: 'ITB STIKOM Bali', desc: 'Student ambassador program.' },
 ];
 
 const techSkills = [
   { group: 'Frontend', items: ['Astro', 'Next.js', 'Vue', 'React', 'Tailwind CSS', 'TypeScript', 'daisyUI'] },
   { group: 'Backend',  items: ['Node.js', 'Python (Flask/FastAPI)', 'PHP', 'REST API', 'WebSocket'] },
-  { group: 'Data / ML', items: ['Python', 'scikit-learn', 'Orange Data Mining', 'Pandas', 'NumPy', 'Matplotlib'] },
-  { group: 'Tools',    items: ['Git', 'Docker', 'VSCode', 'WSL', 'Vercel', 'Netlify', 'Figma'] },
+  { group: 'Data / ML', items: ['Python', 'scikit-learn', 'Orange Data Mining', 'Pandas', 'NumPy'] },
+  { group: 'DevOps',   items: ['Git', 'Docker', 'VSCode', 'WSL', 'Vercel', 'Netlify', 'GitHub Actions'] },
+  { group: 'Security', items: ['Static code review', 'Network security fundamentals (FCNS)', 'Burp Suite', 'OWASP Top 10'] },
 ];
 
 const sertifikasi = [
@@ -25,12 +24,11 @@ const sertifikasi = [
   'FCNS — Network Security',
   'LSPP — Programmer',
   'DM — Digital Marketing',
-  'Japanese N3',
 ];
 ---
 <BaseLayout
   title="About"
-  description="Tentang PahchinSan Developer (Afiq Andico / Pahchin) — IT Support, web/app developer, seniman, dan periset."
+  description="Tentang PahchinSan Developer — IT Support, web/app developer, dan ML engineer oleh Afiq Andico (Pahchin)."
 >
   <!-- INTRO -->
   <section class="container-wide py-16 md:py-24">
@@ -43,16 +41,16 @@ const sertifikasi = [
         </h1>
         <div class="prose-dev mt-8">
           <p>
-            Saya <strong>{SITE.fullName}</strong> — dipanggil <strong>Pahchin</strong> di dunia tech, <strong>Ruby Rubhin</strong> di dunia seni. Lahir di Situbondo, 9 Juli 2001. Tinggal di Denpasar Utara, Bali sejak usia 1–2 tahun.
+            Saya <strong>{SITE.fullName}</strong> — dipanggil <strong>Pahchin</strong>. Lahir di Situbondo, 9 Juli 2001. Tinggal di Denpasar Utara, Bali sejak usia 1–2 tahun.
           </p>
           <p>
-            {SITE.name} adalah studio kecil yang aku bangun untuk merangkai ketiganya — <strong>teknologi, data, dan seni</strong> — jadi satu workflow yang konsisten. Project root di <code class="text-teal-400">C:\Users\Afiq Andico\Projects\</code>.
+            {SITE.name} adalah studio kecil yang aku bangun di 2024 untuk ngerjain project IT freelance — website, aplikasi, model ML, pipeline data. Engineering rapi, eksekusi terukur, no-bullshit.
           </p>
           <p>
             Motto: <em>"{SITE.motto}"</em> — bukan jargon, itu kompas harian.
           </p>
           <p>
-            Saat ini saya IT Support di Cube Cafe Jimbaran, sambil menunggu yudisium S1 Sistem Informasi ITB STIKOM Bali (5 Juli 2026). Setelah itu, riset S2 soal <em>Butterfly Effect in IT</em>.
+            Day job: <strong>{SITE.role}</strong>. Sambil nunggu yudisium S1 Sistem Informasi ITB STIKOM Bali (5 Juli 2026).
           </p>
         </div>
       </div>
@@ -71,12 +69,13 @@ const sertifikasi = [
             </div>
             <div class="space-y-3 p-5 font-mono text-sm">
               <div class="flex justify-between"><span class="text-ink-300">name</span><span class="text-ink-50">"Pahchin"</span></div>
-              <div class="flex justify-between"><span class="text-ink-300">aliases</span><span class="text-ink-50">["Ruby", "PahchinSan"]</span></div>
-              <div class="flex justify-between"><span class="text-ink-300">born</span><span class="text-ink-50">"Situbondo, 2001"</span></div>
-              <div class="flex justify-between"><span class="text-ink-300">base</span><span class="text-ink-50">"Denpasar, Bali"</span></div>
-              <div class="flex justify-between"><span class="text-ink-300">role</span><span class="text-accent-400">"Full-stack + ML"</span></div>
+              <div class="flex justify-between"><span class="text-ink-300">legal_name</span><span class="text-ink-50 text-xs">"Afiq Andico P."</span></div>
+              <div class="flex justify-between"><span class="text-ink-300">role</span><span class="text-accent-400">"Full-stack · ML"</span></div>
+              <div class="flex justify-between"><span class="text-ink-300">day_job</span><span class="text-ink-50 text-xs">"IT Support @ Cube Cafe"</span></div>
+              <div class="flex justify-between"><span class="text-ink-300">base</span><span class="text-ink-50">"Jimbaran, Bali"</span></div>
+              <div class="flex justify-between"><span class="text-ink-300">status</span><span class="text-ink-50">"Open for freelance"</span></div>
               <div class="flex justify-between"><span class="text-ink-300">email</span><span class="text-ink-100 text-xs">{SITE.email}</span></div>
-              <div class="flex justify-between"><span class="text-ink-300">github</span><span class="text-ink-100 text-xs">@afiqandico13</span></div>
+              <div class="flex justify-between"><span class="text-ink-300">github</span><span class="text-ink-100 text-xs">@pahchinsan</span></div>
             </div>
           </div>
 
@@ -103,9 +102,9 @@ const sertifikasi = [
   <!-- TECH STACK -->
   <section class="border-y border-ink-700 bg-ink-800/30 py-16 md:py-24">
     <div class="container-wide">
-      <p class="section-label">~/skills</p>
+      <p class="section-label">~/stack</p>
       <h2 class="mb-10 font-display text-3xl text-ink-50 sm:text-4xl">Tech yang biasa aku pakai.</h2>
-      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {techSkills.map(group => (
           <div>
             <p class="mb-3 font-mono text-xs uppercase tracking-widest text-accent-400">{group.group}</p>
@@ -123,7 +122,7 @@ const sertifikasi = [
   <!-- PENGALAMAN KERJA -->
   <section class="container-wide py-16 md:py-24">
     <p class="section-label">~/experience</p>
-    <h2 class="mb-10 font-display text-3xl text-ink-50 sm:text-4xl">Pengalaman.</h2>
+    <h2 class="mb-10 font-display text-3xl text-ink-50 sm:text-4xl">Pengalaman (IT).</h2>
     <ol class="relative space-y-8 border-l border-ink-700 pl-8">
       {pengalaman.map(p => (
         <li class="relative">
@@ -160,7 +159,7 @@ const sertifikasi = [
     <div class="grid gap-6 md:grid-cols-2">
       <div class="rounded-box border border-ink-600 bg-ink-800/30 p-6">
         <p class="font-mono text-xs uppercase tracking-widest text-accent-400">skripsi · 2025</p>
-        <h3 class="mt-2 font-display text-xl text-ink-50">Orange Data Mining</h3>
+        <h3 class="mt-2 font-display text-xl text-ink-50">Orange Data Mining — Klasifikasi 3 Domain</h3>
         <p class="mt-2 text-sm text-ink-200">
           Optimasi Manajemen Marketing, SDM, &amp; Operasional Kampus Abiansemal — integrasi tiga domain dalam satu model klasifikasi terpadu.
         </p>
@@ -181,17 +180,17 @@ const sertifikasi = [
       </div>
 
       <div class="rounded-box border border-ink-600 bg-ink-800/30 p-6">
-        <p class="font-mono text-xs uppercase tracking-widest text-accent-400">riset orisinal · 2025</p>
+        <p class="font-mono text-xs uppercase tracking-widest text-accent-400">kriptografi · 2025</p>
         <h3 class="mt-2 font-display text-xl text-ink-50">Teori Andico-Ruby</h3>
         <p class="mt-2 text-sm text-ink-200">
-          Metode enkripsi hibrid untuk anonimisasi data — Rumus Andico (Dynamic Recursive Shift) + Rumus Ruby (Transformasi Energi-Informasi).
+          Metode enkripsi hibrid orisinal — Dynamic Recursive Shift + Transformasi Energi-Informasi.
         </p>
         <div class="mt-4 grid grid-cols-3 gap-3">
           <div class="rounded border border-ink-700 bg-ink-900 p-3 text-center">
             <p class="font-mono text-xl text-teal-400">9.1</p>
             <p class="font-mono text-[10px] text-ink-300">bit entropy</p>
           </div>
-          <div class="rounded border border-ink-700 bg-ink-900 p-3 text-center">
+          <div class="rounded border border-ink-700 bg-ink-700 p-3 text-center">
             <p class="font-mono text-xl text-teal-400">0.1%</p>
             <p class="font-mono text-[10px] text-ink-300">collision</p>
           </div>
@@ -204,26 +203,30 @@ const sertifikasi = [
     </div>
   </section>
 
-  <!-- ALIASES -->
+  <!-- PERSONAL BRANDS (CLEAR SEPARATION) -->
   <section class="border-t border-ink-700 bg-ink-800/30 py-16 md:py-24">
     <div class="container-wide">
-      <p class="section-label">~/aliases</p>
-      <h2 class="mb-3 font-display text-3xl text-ink-50 sm:text-4xl">Saya juga dikenal sebagai:</h2>
+      <p class="section-label">~/context</p>
+      <h2 class="mb-3 font-display text-3xl text-ink-50 sm:text-4xl">Luar studio ini, saya juga:</h2>
       <p class="mb-10 max-w-2xl text-ink-200">
-        Tergantung konteksnya — di tech pakai Pahchin, di seni pakai Ruby Rubhin, di foto pakai AFuckingCo, di musik label-nya Pilgrim's Records.
+        Untuk konteks lain — riset personal, karya seni, atau hal-hal di luar tech — ada identity terpisah.
       </p>
-      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {[
-          { name: 'Pahchin / PahchinSan', use: 'Tech & dev work' },
-          { name: 'Ruby Rubhin', use: 'Seni, musik, lukis' },
-          { name: 'AFuckingCo', use: 'Fotografi' },
-          { name: "Pilgrim's Records", use: 'Label rekaman indie' },
-        ].map(a => (
-          <div class="rounded-box border border-ink-600 bg-ink-900/50 p-4">
-            <p class="font-display text-lg text-accent-400">{a.name}</p>
-            <p class="mt-1 font-mono text-xs text-ink-300">{a.use}</p>
-          </div>
-        ))}
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <a href="https://github.com/afiqandico13" class="card-hover block rounded-box border border-ink-600 bg-ink-900/50 p-5 transition-colors hover:border-accent-400/60">
+          <p class="font-display text-lg text-accent-400">Afiq Andico Pangimpian</p>
+          <p class="mt-1 font-mono text-xs text-ink-300">Personal · research · ML · security</p>
+          <p class="mt-2 text-sm text-ink-200">Riset LSTM, security reviews, dan project personal di github.com/afiqandico13</p>
+        </a>
+        <a href="https://github.com/anotherwaltz" class="card-hover block rounded-box border border-ink-600 bg-ink-900/50 p-5 transition-colors hover:border-coral-400/60">
+          <p class="font-display text-lg text-coral-400">Another Waltz</p>
+          <p class="mt-1 font-mono text-xs text-ink-300">Art collective · musik · lukis · foto</p>
+          <p class="mt-2 text-sm text-ink-200">Kolektif seni Bali. Karya lukis, musik, foto — di-handle sebagai Ruby Rubhin.</p>
+        </a>
+        <div class="rounded-box border border-ink-600 bg-ink-900/50 p-5">
+          <p class="font-display text-lg text-teal-400">Inbound inquiries</p>
+          <p class="mt-1 font-mono text-xs text-ink-300">Studio · freelance · konsultasi</p>
+          <p class="mt-2 text-sm text-ink-200">Untuk project IT — langsung via email atau WhatsApp di bawah.</p>
+        </div>
       </div>
     </div>
   </section>

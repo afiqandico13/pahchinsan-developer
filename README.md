@@ -1,48 +1,51 @@
 # PahchinSan Developer
 
-> **Web, App, ML & Data Science Studio.** Portfolio + studio toolkit by Afiq Andico (Pahchin / Ruby).
+> **Web, App, ML & Data Science Studio.** Portfolio + studio toolkit by Afiq Andico (Pahchin).
 
-A unified personal site combining portfolio, live demos, and client-facing studio toolkit.
+A clean, IT-services-focused site. Pure dev/IT work — no creative content (that lives at [anotherwaltz.id](https://github.com/anotherwaltz/anotherwaltz-site)).
 
-🌐 **Live**: [pahchinsan.vercel.app](https://pahchinsan.vercel.app) (setelah deploy)
-📦 **Repo**: github.com/afiqandico13/pahchinsan-developer
+🌐 **Live**: [pahchinsan.dev](https://github.com/afiqandico13/pahchinsan-developer) (set setelah deploy)
 
 ---
 
 ## What's inside
 
-This site unifies several previous projects into one cohesive brand experience:
-
-| Section | Path | Source |
+| Section | Path | Notes |
 |---|---|---|
-| **Home** | `/` | Terminal-style hero + tech stack + featured work |
-| **Work** | `/work/` | 8 projects across Web/App, Data/ML, Research, Creative |
-| **Demos** | `/demos/` | Live demo embeds (Taskflow SPA, Pricing Calculator) |
-| **Studio** | `/studio/` | Services + pricing + downloadable templates (brief/agreement/proposal) |
-| **Blog** | `/blog/` | 6 writing pieces — mix of tech, art, and reflections |
-| **About** | `/about/` | Bio, pengalaman, sertifikasi, penelitian, aliases |
-| **Contact** | `/contact/` | Form + direct channels |
+| **Home** | `/` | Terminal-style hero + tech stack + featured projects + CTA |
+| **Work** | `/work/` | Projects across Web/App, Data/ML, Research (filter JS) |
+| **Demos** | `/demos/` | Live demo embeds (Taskflow SPA + Pricing Calculator) |
+| **Studio** | `/studio/` | Services + pricing + downloadable templates |
+| **About** | `/about/` | Bio, pengalaman, sertifikasi, penelitian + IT scope |
+| **Contact** | `/contact/` | Form (Formspree-ready) + direct channels |
+| `/taskflow-demo-app.html` | Standalone React SPA, 30 KB |
+| `/pricing-calculator.html` | Interactive calculator, 43 KB |
+| `/studio/brief.md`, `service-agreement.md`, `proposal.md` | Downloadable templates |
 
-**Live demos** (`/demos/`):
-- `taskflow-demo-app.html` (30 KB) — single-file React 18 task management
-- `pricing-calculator.html` (43 KB) — interactive pricing tool (offline-capable)
+**7 pages total** (was 15 — creative content removed, focused on IT services only).
 
-**Studio templates** (`/studio/`):
-- `brief.md` (6 KB) — client questionnaire
-- `service-agreement.md` (10 KB) — 11-Pasal contract
-- `proposal.md` (11 KB) — penawaran template
+---
+
+## Brand & Identity
+
+**PahchinSan Developer** = IT services brand. One of 3 identities of Afiq Andico Pangimpian:
+
+| Identity | Domain | GitHub |
+|---|---|---|
+| **Afiq Andico Pangimpian** (personal) | CV, kerja, research | [github.com/afiqandico13](https://github.com/afiqandico13) |
+| **PahchinSan Developer** (IT services) | Freelance, web/app/ML | [github.com/afiqandico13/pahchinsan-developer](https://github.com/afiqandico13/pahchinsan-developer) |
+| **Another Waltz** (art collective) | Pameran, musik, lukis | [github.com/anotherwaltz/anotherwaltz-site](https://github.com/anotherwaltz/anotherwaltz-site) |
+
+See `/about/` page on this site for the relationship.
 
 ---
 
 ## Stack
 
-- **Framework**: [Astro 4](https://astro.build) (static-first, SEO-friendly)
-- **Styling**: [Tailwind CSS 3](https://tailwindcss.com) + [daisyUI 4](https://daisyui.com) (custom `pahchin` dark theme)
-- **Fonts**: JetBrains Mono (display/code) + Inter (body)
-- **Typography**: mono-forward, dev-aesthetic
-- **Content**: Markdown via Astro Content Collections
-- **CMS-ready**: includes Decap CMS config (commented for client projects)
-- **Hosting**: Vercel / Netlify (both supported via `vercel.json` + `netlify.toml`)
+- **Framework**: [Astro 4](https://astro.build) (static-first)
+- **Styling**: [Tailwind CSS 3](https://tailwindcss.com) + [daisyUI 4](https://daisyui.com) — custom `dark` theme
+- **Fonts**: JetBrains Mono (display) + Inter (body)
+- **Hosting**: Vercel / Netlify / GitHub Pages (3 options in DEPLOY.md)
 
 ---
 
@@ -51,55 +54,25 @@ This site unifies several previous projects into one cohesive brand experience:
 ```bash
 npm install
 npm run dev        # http://localhost:4321
-npm run build      # ./dist (459 KB static)
+npm run build      # ./dist
 npm run preview
 ```
 
----
-
-## Brand identity
-
-- **Name**: PahchinSan Developer
-- **Tag**: `pahchinsan.dev`
-- **Voice**: engineering-precise, warm, no-bullshit
-- **Theme**: dark by default (`#0B0E14` base, `#7C9CFF` accent, `#5EEAD4` secondary)
-- **Aliases** (same person): Pahchin, PahchinSan (tech) · Ruby Rubhin (seni) · AFuckingCo (foto) · Pilgrim's Records (label musik)
-
-The user `Afiq Andico` goes by Pahchin in tech contexts. Ruby Rubhin is the creative alias. Both are the same person — see `/about/#aliases` for full disclosure.
-
----
-
-## Source projects consolidated
-
-This site replaces and unifies:
-
-1. **another-waltz-portfolio** (now archived as creative side of this site)
-2. **portfolio-template-starter** (reusable template, also in this repo's structure)
-3. **portfolio-service-tools** (calculator + templates → `/studio/` + `/demos/`)
-4. **pahvhin.dev** (original single-file HTML concept → integrated as design language)
-
-Old repos stay on GitHub for historical reference.
+See `DEPLOY.md` for production deploy options.
 
 ---
 
 ## Customization
 
 For new client projects, fork this repo and:
-
 1. Edit `src/consts.ts` — site name, branding, social links
-2. Edit `tailwind.config.mjs` — adjust `pahchin` theme palette
-3. Replace `src/content/blog/` with client content
-4. Update `src/pages/work.astro` project list
-5. Configure Decap CMS in `public/admin/config.yml` (uncomment your backend choice)
-6. Update Formspree ID in `src/pages/contact.astro`
-7. Deploy via Vercel/Netlify
-
-See `/studio/brief.md` and `/studio/proposal.md` for client onboarding flow.
+2. Edit `tailwind.config.mjs` — adjust color palette
+3. Replace content in `src/pages/` with client content
+4. Update Formspree ID in `src/pages/contact.astro`
+5. Deploy
 
 ---
 
 ## License
 
-Personal portfolio — all rights reserved by Afiq Andico (Pahchin).
-
-For client work derived from this template: contact first.
+MIT — see [LICENSE](./LICENSE).
