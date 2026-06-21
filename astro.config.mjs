@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://pahchinsan.vercel.app',
+  site: 'https://pahchinsan-developer.vercel.app',
   integrations: [
     tailwind({
       applyBaseStyles: false,

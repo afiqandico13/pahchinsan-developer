@@ -15,7 +15,7 @@ This site is built as a static Astro site. Three deployment options below — pi
 7. Output directory: `dist` (default)
 8. Click **Deploy**
 9. Tunggu ~1 menit → dapet URL `pahchinsan-developer-xxx.vercel.app`
-10. (Optional) Settings → Domains → add `pahchinsan.dev`
+10. (Optional) Settings → Domains → add `pahchinsan-developer.vercel.app`
 
 **Cost**: Free tier cukup. 100 GB bandwidth/bulan, lebih dari cukup untuk portfolio.
 
@@ -79,10 +79,10 @@ Note: GitHub Pages gak support custom domain `.dev` dengan HTTPS otomatis tanpa 
 
 ---
 
-## Custom Domain Setup (Vercel + pahchinsan.dev)
+## Custom Domain Setup (Vercel + pahchinsan-developer.vercel.app)
 
 1. Beli domain di Namecheap / Cloudflare / Porkbun (~Rp 250K/tahun untuk `.dev`)
-2. Di Vercel → Settings → Domains → add `pahchinsan.dev`
+2. Di Vercel → Settings → Domains → add `pahchinsan-developer.vercel.app`
 3. Copy DNS records yang Vercel kasih (biasanya `A` record atau `CNAME`)
 4. Paste di DNS settings registrar kamu
 5. Tunggu propagasi (5-30 menit)

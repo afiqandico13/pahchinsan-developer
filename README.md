@@ -34,7 +34,7 @@ A clean, IT-services-focused site. Pure dev/IT work — no creative content (tha
 |---|---|---|
 | **Afiq Andico Pangimpian** (personal) | CV, kerja, research | [github.com/afiqandico13](https://github.com/afiqandico13) |
 | **PahchinSan Developer** (IT services) | Freelance, web/app/ML | [github.com/afiqandico13/pahchinsan-developer](https://github.com/afiqandico13/pahchinsan-developer) |
-| **Another Waltz** (art collective) | Pameran, musik, lukis | [github.com/anotherwaltz/anotherwaltz-site](https://github.com/anotherwaltz/anotherwaltz-site) |
+| **Another Waltz** (art collective) | Pameran, musik, lukis | [github.com/anotherwaltz/anotherwaltz-site](https://github.com/afiqandico13/anotherwaltz-site) |
 
 See `/about/` page on this site for the relationship.
 
