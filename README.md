@@ -1,3 +1,5 @@
+![GitHub top language](https://img.shields.io/github/languages/top/afiqandico13/pahchinsan-developer) ![GitHub license](https://img.shields.io/github/license/afiqandico13/pahchinsan-developer)
+
 # PahchinSan Developer
 
 > **Web, App, ML & Data Science Studio.** Portfolio + studio toolkit by Afiq Andico (Pahchin).
