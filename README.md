@@ -2,7 +2,7 @@
 
 # PahchinSan Developer
 
-> **Web, App, ML & Data Science Studio.** Portfolio + studio toolkit by Afiq Andico (Pahchin).
+> **Web, App, ML & Data Science Studio.** Portfolio + studio toolkit by afuckingco.
 
 A clean, IT-services-focused site. Pure dev/IT work — no creative content (that lives at **[anotherwaltz.id](https://github.com/afiqandico13/anotherwaltz-site)**).
 
@@ -30,13 +30,8 @@ A clean, IT-services-focused site. Pure dev/IT work — no creative content (tha
 
 ## Brand & Identity
 
-**PahchinSan Developer** = IT services brand. One of 3 identities of Afiq Andico Pangimpian:
+**PahchinSan Developer** = IT services brand. One of 3 identities of afuckingco:
 
-| Identity | Domain | GitHub |
-|---|---|---|
-| **Afiq Andico Pangimpian** (personal) | CV, kerja, research | [github.com/afiqandico13](https://github.com/afiqandico13) |
-| **PahchinSan Developer** (IT services) | Freelance, web/app/ML | [github.com/afiqandico13/pahchinsan-developer](https://github.com/afiqandico13/pahchinsan-developer) |
-| **Another Waltz** (art collective) | Pameran, musik, lukis | [github.com/anotherwaltz/anotherwaltz-site](https://github.com/afiqandico13/anotherwaltz-site) |
 
 See `/about/` page on this site for the relationship.
 
